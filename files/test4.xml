@@ -1,0 +1,11 @@
+<robot>
+  <meta>
+    <name>test55</name>
+    <country>DK</country>
+    <revision>3</revision>
+    <minversion>1</minversion>
+    <description>test only</description>
+    <icon></icon>
+    <link>http://www.test.com/</link>
+  </meta>
+</robot>
