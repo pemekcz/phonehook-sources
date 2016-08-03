@@ -1,0 +1,56 @@
+<robot>
+  <meta>
+    <name>local.ch</name>
+    <country>CH</country>
+    <revision>2</revision>
+    <minversion>5</minversion>
+    <description>Online phonebook
+Rev. 2: Search added</description>
+    <icon>http://phonehook.omnight.com/logos/ch_local.png</icon>
+    <link>http://www.local.ch/</link>
+  </meta>
+  <set id="root" name="lookup" url="http://www.local.ch/en/api/as3/suggestwhatwhere?focus=what&amp;hl=markup&amp;lang=en&amp;slot=web&amp;what=${telnr}&amp;where=&amp;wt=json" tags="lookup">
+    <set id="020542345917783678" name="field" value="/&quot;what&quot;\s*:\s*&quot;(.*?)(?&lt;!\\)&quot;/" decode="JSON">
+      <set id="000004126690328121185" name="title" value="Name" />
+      <set id="07440590292681009" name="value" value="/(.+)/" />
+      <set id="013452503830194473" name="stitle" value="name" />
+    </set>
+    <set id="06214480309281498" name="field" value="/&quot;where&quot;\s*:\s*&quot;(.*?)(?&lt;!\\)&quot;/">
+      <set id="020477641001343727" name="title" value="Address" />
+      <set id="02609738586470485" name="value" value="/(.+)/" />
+      <set id="0654305771458894" name="stitle" value="address" />
+    </set>
+    <set id="07044879940804094" name="field" value="/&quot;profession&quot;\s*:\s*&quot;(.*?)(?&lt;!\\)&quot;/">
+      <set id="03647166744340211" name="title" value="Profession" />
+      <set id="0893645829288289" name="value" value="/(.+)/" />
+      <set id="000966606754809618" name="stitle" value="profession" />
+    </set>
+  </set>
+  <set id="09345516418106854" name="search" value="${url}" tags="person_search,business_search">
+    <set id="09145668321289122" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="0882805077591911" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="05388878008816391" name="#url" value="${url}">
+      <set id="001937947142869234" name="#empty" value="/^()$/">
+        <set id="0951375731267035" name="#tagWanted" value="${tagWanted}">
+          <set id="03554857687558979" name="type" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="res&#xA;bus" paramoutput="true" />
+        </set>
+        <set id="05455342091154307" name="url" paramoutput="true" value="http://tel.local.ch/en/q?what=${searchNameF}&amp;where=${searchAreaF}&amp;typeref=${type}" />
+      </set>
+    </set>
+    <set id="00858614519238472" name="#load" url="${url}">
+      <set id="032043428951874375" name="result" value="/&lt;div class='[^']*local-listing(.*?)(?=&lt;div class='[^']*local-listing|&lt;div class='pagination'&gt;)/">
+        <set id="018381808255799115" name="name" value="/&lt;h2&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" />
+        <set id="013509462517686188" name="url" value="/&lt;h2&gt;\s*&lt;a href=&quot;(.*?)&quot;/" decode="XML" />
+        <set id="06522239800542593" name="type" paramoutput="true" value="person" />
+        <set id="06384163110051304" name="type" paramoutput="true" value="/(&lt;span class='categories)/" decode="FormatString" formatstring="business" />
+        <set id="0674736330518499" name="type" value="${type}" />
+        <set id="0594049776205793" name="address" value="/&lt;span class='address'&gt;(.*?)&lt;/span&gt;/" />
+        <set id="07191465995274484" name="number" value="/&lt;a[^&gt;]*class=&quot;number&quot;[^&gt;]*&gt;(.*?)&lt;/a&gt;/" />
+      </set>
+      <set id="010383379925042391" name="next" value="/&lt;span class='next'&gt;\s*&lt;a href=&quot;(.*?)&quot;/" decode="XML">
+        <set id="008688744250684977" name="url" value="/(.+)/" decode="RelativeURL" />
+        <set id="05285769768524915" name="tagWanted" value="${tagWanted}" />
+      </set>
+    </set>
+  </set>
+</robot>

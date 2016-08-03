@@ -1,0 +1,64 @@
+<robot>
+  <meta>
+    <name>PagineBianche.it</name>
+    <country>IT</country>
+    <revision>1</revision>
+    <description>Italian telephone directory</description>
+    <icon>http://phonehook.omnight.com/logos/it_pagine_bianche.png</icon>
+    <minversion>9</minversion>
+    <link>http://www.paginebianche.it/</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="02560286133084446" name="#lookup" url="http://www.paginebianche.it/ricerca-da-numero?qs=${telnr}">
+      <set id="029087406885810196" name="#result" value="/&lt;div class=&quot;item (.*?)(?=&lt;div class=&quot;item |&lt;form)/">
+        <set id="034546176064759493" name="field" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
+          <set id="07055170005187392" name="title" value="Name" />
+          <set id="06415173562709242" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+            <set id="035688595520332456" name="value" value="/(.+)/" />
+          </set>
+          <set id="06805767784826458" name="stitle" value="name" />
+        </set>
+        <set id="06063345449510962" name="field" value="/&lt;span class=&quot;insegna capitalize&quot;&gt;\s*([^&lt;]+?)\s*&lt;/span&gt;/">
+          <set id="010624443413689733" name="title" value="Category" />
+          <set id="05241736234165728" name="value" value="/(.+)/" />
+          <set id="09696283417288214" name="stitle" value="category" />
+        </set>
+        <set id="08129206467419863" name="field" value="/&lt;div id=&quot;addr_[^&gt;]*&gt;(.*?)&lt;/div&gt;/">
+          <set id="09473300911486149" name="title" value="Address" />
+          <set id="05233296165242791" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+            <set id="0637817389331758" name="value" value="/(.+)/" />
+          </set>
+          <set id="0431348200654611" name="stitle" value="address" />
+        </set>
+      </set>
+    </set>
+  </set>
+  <set id="09913836568593979" name="search" tags="person_search,business_search">
+    <set id="02332898632157594" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="0175101954722777" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="05852849464863539" name="#tagWantedF" value="${tagWanted}">
+      <set id="07575551480986178" name="tagWantedF" paramoutput="true" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="persone&#xA;aziende" />
+    </set>
+    <set id="07349476702511311" name="#dosearch" url="http://www.paginebianche.it/${tagWantedF}?qs=${searchNameF}&amp;dv=${searchAreaF}&amp;p=${page}">
+      <set id="08875395238865167" name="result" value="/&lt;div class=&quot;item (.*?)(?=&lt;div class=&quot;item |&lt;form)/">
+        <set id="015992124401964247" name="#name" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
+          <set id="09683662238530815" name="name" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+        </set>
+        <set id="045951639278791845" name="#address" value="/&lt;div id=&quot;addr_[^&gt;]*&gt;(.*?)&lt;/div&gt;/">
+          <set id="03522791098803282" name="address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+        </set>
+        <set id="08862188500352204" name="number" value="/&lt;span class=&quot;type&quot;&gt;tel:&lt;/span&gt; &lt;span class=&quot;value&quot;&gt;(.+?)&lt;/span&gt;/" />
+        <set id="04886027022730559" name="#type" value="${tagWanted}">
+          <set id="06918883468024433" name="type" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
+        </set>
+        <set id="0759774622740224" name="url" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]href=&quot;([^&quot;]+)&quot;/" decode="RelativeURL" />
+      </set>
+      <set id="0019907233072444797" name="next" value="/listing-pag-succ&quot; href=&quot;[^&quot;]*p=(\d+)/">
+        <set id="07993958133738488" name="searchName" value="${searchName}" />
+        <set id="0055861990666016936" name="searchArea" value="${searchArea}" />
+        <set id="01443718217778951" name="page" value="/(.+)/" />
+        <set id="08434272254817188" name="tagWanted" value="${tagWanted}" />
+      </set>
+    </set>
+  </set>
+</robot>

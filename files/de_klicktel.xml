@@ -1,0 +1,31 @@
+<robot>
+  <meta>
+    <name>klickTel</name>
+    <country>DE</country>
+    <revision>1</revision>
+    <description>Phone number directory</description>
+    <icon>https://lh3.ggpht.com/HhArbTmgQN_qcN1kwQPdsnUidzaLPFAzhvnLTSQsUcz8exuzFxkxn-b31p60do27ReM=w300</icon>
+    <link>http://www.klicktel.de</link>
+  </meta>
+  <set id="root" name="result">
+    <set id="0996355077251792" name="telnr" paramoutput="true" value="${telnr}" decode="URLEncode" />
+    <set id="07423824763391167" name="#search" url="http://www.klicktel.de/rueckwaertssuche" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36" encoding="utf-8" postrequest="true" postdata="phoneNumber=${telnr}">
+      <set id="09555685874074697" name="field" value="/&lt;h3[^&gt;]*&gt;(.*?)&lt;/h3&gt;/">
+        <set id="09865207627881318" name="title" value="Name" />
+        <set id="006037884042598307" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+          <set id="06301745900418609" name="value" value="/(.+)/" decode="XML" />
+        </set>
+        <set id="09565471226815134" name="stitle" value="name" />
+      </set>
+      <set id="08467272333800793" name="field" value="/&lt;div class=&quot;address&quot;&gt;\s*(.*?)\s*&lt;/div&gt;/">
+        <set id="05736345457844436" name="title" value="Anschrift" />
+        <set id="045151069411076605" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+          <set id="003091884800232947" name="#strip newline" value="/(?:\s|\n)*\n(?:\s|\n)*/" decode="RegexReplace" formatstring="&#xA;">
+            <set id="06674937077332288" name="value" value="/\s*(.+)\s*/" decode="XML" />
+          </set>
+        </set>
+        <set id="049430382275022566" name="stitle" value="address" />
+      </set>
+    </set>
+  </set>
+</robot>

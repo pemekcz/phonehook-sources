@@ -1,0 +1,48 @@
+<robot>
+  <meta>
+    <name>WhitePages.com</name>
+    <country>US</country>
+    <revision>1</revision>
+    <minversion>1</minversion>
+    <description>Number lookup. Has usage limit</description>
+    <icon>http://phonehook.omnight.com/logos/whitepages.png</icon>
+    <link>http://www.whitepages.com/</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="0033227825219560136" name="#load" url="http://www.whitepages.com/phone/${telnr}" requestfields="Header" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Referer:http://www.whitepages.com/" includeheaders="true">
+      <set id="08819316687745697" name="field" value="/dfpSetTargetingParams\[&quot;rfn&quot;\] = &quot;(.*?)&quot;;.*?dfpSetTargetingParams\[&quot;rln&quot;\] = &quot;(.*?)&quot;;/" resultrange="0" decode="FormatString" formatstring="{0} {1}">
+        <set id="06177868336447403" name="value" value="/(.*)/" decode="XML" />
+        <set id="07169200713284662" name="title" value="Name" />
+        <set id="06916790150311913" name="stitle" value="name" />
+      </set>
+      <set id="09865932648010947" name="field" value="/dfpSetTargetingParams\[&quot;rad&quot;\] = &quot;(.*?)&quot;;.*?dfpSetTargetingParams\[&quot;rst&quot;\] = &quot;(.*?)&quot;;.*?dfpSetTargetingParams\[&quot;rct&quot;\] = &quot;(.*?)&quot;;.*?dfpSetTargetingParams\[&quot;rzp&quot;\] = &quot;(.*?)&quot;;/" decode="FormatString" formatstring="{0}&#xA;{2}, {1} {3}">
+        <set id="05480406886240976" name="#value" value="/&lt;.*?&gt;/" decode="RegexReplace">
+          <set id="014360043020074942" name="#trim" value="/^\s*|\s*$/" decode="RegexReplace">
+            <set id="016643728416569692" name="#br" value="/\s*\n\s*/" decode="RegexReplace" formatstring=", ">
+              <set id="08414924229711314" name="value" value="/(.+)/" />
+            </set>
+          </set>
+        </set>
+        <set id="08433924023803301" name="title" value="Address" />
+        <set id="09833086001654421" name="stitle" value="address" />
+      </set>
+      <set id="05213343933225125" name="field" value="/dfpSetTargetingParams\[&quot;rag&quot;\] = &quot;(.*?)&quot;/">
+        <set id="012258049864623977" name="value" value="/&lt;li[^&gt;]*&gt;Age (.*?)&lt;/li&gt;/" />
+        <set id="011050499076433273" name="title" value="Age" />
+        <set id="0336069292994974" name="stitle" value="age" />
+      </set>
+      <set id="09859880074867615" name="field" value="/(&lt;meta[^&gt;]*distil_r_captcha)/">
+        <set id="09694006649485685" name="stitle" value="error" />
+        <set id="004079203396753672" name="title" value="Error" />
+        <set id="0917768025613614" name="value" value="Usage limit exceeded" />
+      </set>
+      <set id="08301733754900233" name="nocache" value="/&lt;meta[^&gt;]*distil_r_captcha()/" />
+    </set>
+  </set>
+  <set id="03252665580783878" name="search">
+    <set id="06919232008210661" name="process" value="||${searchName}|${searchArea}" formatstring="function f(data) {&#xA;&#xA;var split = data.split('|');&#xA;var e = split[0], n = split[1], o = split[2], r = split[3];&#xA;var i = function(e) { return e.replace(/^\s+/, &quot;&quot;).replace(/\s+$/, &quot;&quot;) };&#xA;var t = function (e) {&#xA;  var n = function(e) { return i(e || &quot;&quot;).replace(/[\s~,]+/g, &quot;-&quot;) };&#xA;  var o = function(e) { return i(e || &quot;&quot;).replace(/(?:^|\s)\S/g, function(e) {&#xA;            return e.toUpperCase()&#xA;        })&#xA;    };&#xA; return n(o(e)) };&#xA;&#xA;&#xA;&#xA;        var s = i(o).split(/ +/);&#xA;        2 == s.length &amp;&amp; (e = s[0],&#xA;        n = s[1],&#xA;        o = void 0);&#xA;        var a = [t(o)]&#xA;          , l = void 0;&#xA;        return void 0 !== a[0] &amp;&amp; &quot;&quot; !== a[0] || ((&quot;&quot; + e + n).match(/[^a-z0-9]/i) &amp;&amp; (l = &quot;~&quot;),&#xA;        a[0] = &quot;&quot; === e ? (l || &quot;&quot;) + t(n) : t(e) + (l || &quot;-&quot;) + t(n)),&#xA;        &quot;&quot; == a[0] &amp;&amp; (a[0] = &quot;-&quot;),&#xA;        void 0 !== r &amp;&amp; &quot;&quot; !== r &amp;&amp; (a[1] = t(r)),&#xA;        encodeURI(&quot;/name/&quot; + a.join(&quot;/&quot;))&#xA;    }" decode="Script" paramoutput="true" />
+    <set id="032300886722507927" name="#load" url="http://www.whitepages.com${process}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Referer:http://www.whitepages.com/">
+      <set id="02851328593894502" name="Unnamed" />
+    </set>
+  </set>
+</robot>

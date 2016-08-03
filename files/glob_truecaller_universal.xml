@@ -1,0 +1,119 @@
+<robot>
+  <meta>
+    <name>TrueCaller</name>
+    <country>_ALL</country>
+    <revision>3</revision>
+    <minversion>9</minversion>
+    <description>Truecaller number lookup. New version handles login differently.
+
+Instructions:
+First login in with one of the provided methods, then lookups should work.
+
+Rev.2: Updated site layout
+Rev.3: Updated login options
+</description>
+    <login>
+      <name>Google Account</name>
+      <url>https://www.truecaller.com/auth/google?es=0</url>
+      <login_success_url>https://www.truecaller.com/</login_success_url>
+    </login>
+    <login>
+      <name>Microsoft Account</name>
+      <url>https://www.truecaller.com/auth/microsoft?es=0</url>
+      <login_success_url>https://www.truecaller.com/</login_success_url>
+    </login>
+    <link>https://www.truecaller.com/</link>
+    <icon>http://phonehook.omnight.com/logos/TrueCaller_Logo.png</icon>
+  </meta>
+  <set id="root" name="result" tags="lookup,block">
+    <set id="07633541077375412" name="countryIso" value="${countryIso}" decode="UpperCase" paramoutput="true" />
+    <set id="034734209394082427" name="#fb_cookie" value="${cookie:c_user}">
+      <set id="0515329813817516" name="#exists" value="/(.+)/">
+        <set id="014434654917567968" name="#test_search" url="https://www.truecaller.com/facebook-app/search/${countryIso}/${telnr}">
+          <set id="07317651396151632" name="pageOutput" paramoutput="true" value="/(.+)/" />
+          <set id="03772468955721706" name="#signIn" value="/(&lt;button onclick=&quot;signInFacebookApp\(\)&quot;)/">
+            <set id="03119817478582263" name="#get_new_fb_token" url="https://www.facebook.com/v2.2/dialog/oauth?app_id=126694440681943&amp;client_id=126694440681943&amp;display=popup&amp;domain=www.truecaller.com&amp;e2e=%7B%7D&amp;locale=en_US&amp;origin=1&amp;redirect_uri=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2F1ldYU13brY_.js%3Fversion%3D41%23cb%3Df30c4b16e8%26domain%3Dwww.truecaller.com%26origin%3Dhttps%253A%252F%252Fwww.truecaller.com%252Ff299cee6c%26relation%3Dopener%26frame%3Dfba57fb64&amp;response_type=token%2Csigned_request&amp;sdk=joey&amp;version=v2.2" followredirect="false" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#xA;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;Referer:https://tcfb.truecaller.com/" decode="XML">
+              <set id="016283998428843915" name="fbToken" paramoutput="true" value="/access_token=(.*?)&amp;/" />
+              <set id="02384621361270547" name="#signin" url="https://www.truecaller.com/facebook-app/sign-in" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#xA;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Content-Type:application/x-www-form-urlencoded&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4" postrequest="true" postdata="access_token=${fbToken}&amp;country=${countryIso}">
+                <set id="03898903240915388" name="pageOutput" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#xA;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4" url="https://www.truecaller.com/facebook-app/search/${countryIso}/${telnr}" paramoutput="true" />
+              </set>
+            </set>
+          </set>
+        </set>
+      </set>
+    </set>
+    <set id="0848319775192067" name="#google_ms_cookie" value="${cookie:SID}${cookie:MUID}">
+      <set id="020106280595064163" name="#exists" value="/(.+)/">
+        <set id="020772811863571405" name="#test_search" url="https://www.truecaller.com/${countryIso}/${telnr}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded&#xA;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4" includeheaders="true">
+          <set id="04732148665934801" name="pageOutput" paramoutput="true" value="/(.+)/" />
+          <set id="012168518430553377" name="#signin_required" value="/(&gt;Sign in&lt;)/" resultrange="0">
+            <set id="011696757841855288" name="field">
+              <set id="09972714460454881" name="title" value="Error" />
+              <set id="0786419105483219" name="value" value="Sign-in Required" />
+              <set id="09753685689065605" name="stitle" value="error" />
+            </set>
+            <set id="09742099409922957" name="nocache" />
+          </set>
+        </set>
+      </set>
+    </set>
+    <set id="010637810965999961" name="#pageOutput" value="${pageOutput}">
+      <set id="06192706888541579" name="field" value="/&lt;p class=&quot;result__name&quot;&gt;(.*?)&lt;/p&gt;/" decode="JSON">
+        <set id="08785065968986601" name="title" value="Name" />
+        <set id="04111223246436566" name="value" value="/(.+)/" />
+        <set id="0030946729239076376" name="stitle" value="name" />
+      </set>
+      <set id="008990838495083153" name="field" value="/&lt;div class=&quot;detailView__nameText&quot;&gt;\s*(.*?)\s*&lt;/">
+        <set id="0022186205256730318" name="title" value="Name" />
+        <set id="07682456753682345" name="value" value="/(.+)/" />
+        <set id="09948369935154915" name="stitle" value="name" />
+      </set>
+      <set id="05800170917063951" name="#address1" value="/&lt;p class=&quot;result__label&quot;&gt;Address&lt;/p&gt;\s*&lt;p&gt;\s*(.*?)\s*&lt;/p&gt;/">
+        <set id="023326262226328254" name="field" value="/&lt;br&gt;/" decode="RegexReplace" formatstring="&#xA;">
+          <set id="06911845947615802" name="title" value="Address" />
+          <set id="004105803859420121" name="value" value="/(.+)/" decode="JSON" />
+          <set id="07442013116087765" name="stitle" value="address" />
+        </set>
+      </set>
+      <set id="016381537565030158" name="#address2" value="/&lt;div class=&quot;detailView__label&quot;&gt;Address&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;\s*(?:&lt;a[^&gt;]*&gt;)?\s*(.*?)\s*&lt;//">
+        <set id="0677849312312901" name="field" value="/&lt;br&gt;/" decode="RegexReplace" formatstring="&#xA;">
+          <set id="07476860035676509" name="title" value="Address" />
+          <set id="08688637623563409" name="value" value="/(.+)/" />
+          <set id="09545120007824153" name="stitle" value="address" />
+        </set>
+      </set>
+      <set id="026968154683709145" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Email&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;&lt;a href=&quot;mailto:([^&quot;]+)&quot;&gt;/">
+        <set id="03358407118357718" name="title" value="Email" />
+        <set id="010150265414267778" name="value" value="/(.+)/" />
+        <set id="08089230263140053" name="stitle" value="email" />
+      </set>
+      <set id="0606800303561613" name="block" value="/(&lt;span class=&quot;result__spam-report&quot;&gt;|&quot;detailView__spam&quot;)/" decode="FormatString" formatstring="true" />
+      <set id="039782828697934747" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Website&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
+        <set id="08685594699345529" name="title" value="Website" />
+        <set id="09853870598599315" name="value" value="/(.+)/" />
+        <set id="09853406806942075" name="stitle" value="website" />
+      </set>
+    </set>
+    <set id="05650848371442407" name="#pageOutput" value="${pageOutput}">
+      <set id="05709223523736" name="#empty" value="/^()$/">
+        <set id="06193663103040308" name="field">
+          <set id="011416605999693274" name="title" value="Error" />
+          <set id="03129493142478168" name="value" value="Please sign in!" />
+          <set id="08361035708803684" name="stitle" value="error" />
+        </set>
+        <set id="0891773758456111" name="nocache" />
+      </set>
+    </set>
+  </set>
+  <set id="07603798285126686" name="afterGoogleLogin" tags="login_google">
+    <set id="05042018536478281" name="#get-signin-page" url="http://www.truecaller.com/modals/sign-in-and-enhanced-search" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36&#xA;X-Requested-With:XMLHttpRequest">
+      <set id="09210218237712979" name="state" paramoutput="true" value="/googleSignInCallback.*?var state = '(.*?)'/" />
+      <set id="07620194174814969" name="countryIso" paramoutput="true" value="/\$\( '#signInSelect select' \).val\(\) \|\| '(..)'/" resultrange="0" />
+    </set>
+    <set id="09043187031056732" name="#load_login" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36&#xA;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;Referer:https://tcfb.truecaller.com/" encoding="utf-8" decode="XML" includeheaders="true" value="${login_http}">
+      <set id="03456294711213559" name="token" value="/access_token=(.*?)&amp;/" paramoutput="true" />
+      <set id="06714376125019044" name="code" value="/code=(.*?)&amp;/" decode="XML" paramoutput="true" />
+      <set id="0920509731862694" name="#do-login" url="http://www.truecaller.com/sign-in/google?country=${countryIso}&amp;enhanced_search=false&amp;state=${state}" postrequest="true" requestfields="Header" postdata="${code}" requestvalue="Accept:*/*&#xA;Accept-Encoding:gzip, deflate&#xA;Accept-Language:en-US,en;q=0.8&#xA;Content-Type:application/octet-stream; charset=UTF-8&#xA;Origin:http://www.truecaller.com&#xA;Referer:http://www.truecaller.com/&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36&#xA;X-Requested-With:XMLHttpRequest" followredirect="false" includeheaders="true" />
+    </set>
+  </set>
+</robot>

@@ -1,0 +1,29 @@
+<robot>
+  <meta>
+    <name>tel.search.ch</name>
+    <country>CH</country>
+    <revision>1</revision>
+    <description>Online phonebook</description>
+    <icon>http://android.search.ch/images/android/icon.png</icon>
+    <link>http://tel.search.ch/</link>
+  </meta>
+  <set id="root" name="result" url="http://tel.search.ch/?was=${telnr}">
+    <set id="08051996168214828" name="#person" value="/&lt;table class=&quot;tel_logorec&quot;&gt;(.*?)&lt;/table&gt;/">
+      <set id="07930043158121407" name="field" value="/&lt;h5&gt;&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/">
+        <set id="09983090269379318" name="title" value="Name" />
+        <set id="06802826311904937" name="value" value="/(.+)/" />
+        <set id="032842248817905784" name="stitle" value="name" />
+      </set>
+      <set id="07697933749295771" name="field" value="/&lt;div class=&quot;roccu&quot;&gt;(.*?)&lt;/div&gt;/">
+        <set id="05125638039316982" name="title" value="Category" />
+        <set id="063221879536286" name="value" value="/(.+)/" />
+        <set id="0323619730072096" name="stitle" value="category" />
+      </set>
+      <set id="002086475118994713" name="field" value="/&lt;div class=&quot;adr&quot;&gt;(.*?)&lt;/div&gt;/">
+        <set id="02574653073679656" name="title" value="Address" />
+        <set id="003745695645920932" name="value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+        <set id="0749779793433845" name="stitle" value="address" />
+      </set>
+    </set>
+  </set>
+</robot>

@@ -1,0 +1,64 @@
+<robot>
+  <meta>
+    <name>Gouden+Witte Gids</name>
+    <country>BE</country>
+    <revision>1</revision>
+    <minversion>5</minversion>
+    <description>Yellow and white pages for Belgium. Yellow pages can be a bit data intensive.</description>
+    <link>https://www.goudengids.be</link>
+    <icon>http://phonehook.omnight.com/logos/be_gouden.png</icon>
+  </meta>
+  <set id="root" name="person_search" tags="person_search">
+    <set id="041315399622544646" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="018802243238314986" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="009261532849632204" name="#page" value="${page}">
+      <set id="07305386275984347" name="#empty" value="/^()$/">
+        <set id="08454657651018351" name="page" paramoutput="true" value="1" />
+      </set>
+    </set>
+    <set id="05248504502233118" name="url" paramoutput="true" value="http://www.wittegids.be/q/ajax/name?customerType=ALL&amp;who=${searchNameF}&amp;where=${searchAreaF}&amp;street=&amp;number=&amp;sort=&amp;refine=&amp;char=&amp;location=&amp;address=&amp;page=${page}&amp;searchType=DOUBLE&amp;originalContextPath=http%3A%2F%2Fwww.wittegids.be" />
+    <set id="047750598611310124" name="#search" url="${url}">
+      <set id="04049353639129549" name="result" value="/(\{&quot;?part&quot;?:&quot;base&quot;.*?)(?={&quot;?part&quot;?:&quot;base&quot;|\]\s*,)/">
+        <set id="0883783767465502" name="name" value="/&quot;name&quot;:&quot;(.*?)(?&lt;!\\)&quot;/" decode="JSON" />
+        <set id="05530802076682448" name="#address" value="/&quot;street&quot;:&quot;(.*?)(?&lt;!\\)&quot;.*&quot;postcode&quot;:&quot;(.*?)(?&lt;!\\)&quot;.*&quot;city&quot;:&quot;(.*?)(?&lt;!\\)&quot;.*/" decode="FormatString" formatstring="{0}, {1} {2}">
+          <set id="020951812923885882" name="address" value="/(.+)/" decode="JSON" />
+        </set>
+        <set id="009647964127361774" name="type" value="person" />
+        <set id="04353073232341558" name="url" value="/&quot;url&quot;:&quot;(.*?)(?&lt;!\\)&quot;/" decode="JSON" />
+        <set id="05348417914938182" name="number" value="/&quot;(?:phone|mobile)&quot;:&quot;([^&quot;]+?)&quot;/" />
+      </set>
+      <set id="04893676114734262" name="next" value="/\{&quot;name&quot; : &quot;page&quot;, &quot;value&quot;: &quot;(\d+)&quot;\}/">
+        <set id="022991988412104547" name="tagWanted" value="${tagWanted}" />
+        <set id="09520471231080592" name="page" value="/(.+)/" />
+        <set id="045490707783028483" name="searchArea" value="${searchArea}" />
+        <set id="001912009809166193" name="searchName" value="${searchName}" />
+      </set>
+    </set>
+  </set>
+  <set id="06307430795859545" name="business_search" tags="business_search">
+    <set id="042620356543920934" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="043759493669494987" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="09067601272836328" name="#page" value="${page}">
+      <set id="001198734762147069" name="#empty" value="/^()$/">
+        <set id="02155100090894848" name="page" paramoutput="true" value="1" />
+      </set>
+    </set>
+    <set id="08929449890274554" name="#load" url="http://www.goudengids.be/q/ajax/business/results.json?input=&amp;what=${searchNameF}&amp;where=${searchAreaF}&amp;type=RESTO&amp;resultlisttype=A_AND_B&amp;page=${page}&amp;context=SRP*A_LIST" requestfields="Header" requestvalue="Content-Type:application/json; charset=utf-8&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36&#xA;Referer:http://www.goudengids.be/&#xA;Accept:application/json">
+      <set id="046609676955267787" name="#results" value="/&quot;searchResults&quot;:(.*?)&quot;zoningResults&quot;:/">
+        <set id="07516117542982101" name="result" value="/(&quot;uniqueId&quot;.*?)(?=&quot;uniqueId&quot;|$)/">
+          <set id="05154113634489477" name="name" value="/&quot;bn&quot;:&quot;(.*?)&quot;/" decode="JSON" />
+          <set id="07987920574378222" name="address" value="/&quot;displayAddress&quot;:&quot;(.*?)&quot;/" decode="JSON" />
+          <set id="039499446703121066" name="type" value="business" />
+          <set id="07035131072625518" name="url" value="/&quot;prettyUrl&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.goudengids.be{0}" />
+          <set id="03303165640681982" name="number" value="/&quot;phone&quot;:.*?&quot;value&quot;:&quot;(.*?)&quot;/" />
+        </set>
+      </set>
+      <set id="06288835352752358" name="next" value="/&quot;overallResultPagination&quot;.*?&quot;nextPage&quot;:(\d+)/">
+        <set id="07203233251348138" name="page" value="/(.+)/" />
+        <set id="05724491768050939" name="searchArea" value="${searchArea}" />
+        <set id="04487830444704741" name="searchName" value="${searchName}" />
+        <set id="05931929359212518" name="tagWanted" value="${tagWanted}" />
+      </set>
+    </set>
+  </set>
+</robot>

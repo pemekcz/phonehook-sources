@@ -12,11 +12,13 @@ Rev 3: Autoblock capability</description>
     <set id="09780521732755005" name="field" value="/'toporganisations'&gt;\s+&lt;li&gt;\s+&lt;a[^&gt;]+&gt;\s+(.*?)&lt;|&lt;div class=&quot;w40&quot;&gt;&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;&lt;/div&gt;/" resultrange="0">
       <set id="07670569138135761" name="title" value="Name" />
       <set id="08662349679507315" name="value" value="/(.+)/" />
-    <set id="05788292693905532" name="stitle" value="name" /></set>
+      <set id="05788292693905532" name="stitle" value="name" />
+    </set>
     <set id="066595792863518" name="field" value="/&lt;div class=&quot;comment-content&quot;&gt;(.*?)&lt;/?div/" resultrange="0">
       <set id="04576610657386482" name="title" value="Comment" />
       <set id="02297447118908167" name="value" value="/&lt;br /&gt;/" decode="RegexReplace" formatstring="&#xA;" />
-    <set id="04663939441088587" name="stitle" value="comment" /></set>
+      <set id="04663939441088587" name="stitle" value="comment" />
+    </set>
     <set id="06856998975854367" name="block" value="/(&lt;h1&gt;Samtal från)/" decode="FormatString" formatstring="true" />
   </set>
 </robot>

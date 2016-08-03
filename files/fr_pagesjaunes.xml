@@ -1,0 +1,76 @@
+<robot>
+  <meta>
+    <name>PagesJaunes</name>
+    <country>FR</country>
+    <revision>2</revision>
+    <minversion>7</minversion>
+    <description>Online phonebook
+Rev. 2: Added search</description>
+    <icon>http://phonehook.omnight.com/logos/fr_pagesjaunes.png</icon>
+  </meta>
+  <set id="root" name="result" url="http://www.pagesjaunes.fr/pagesblanches/aquiestcenumero.do?fromSCC=true&amp;pjajax=true">
+    <set id="00899613038636744" name="action" paramoutput="true" value="/action=&quot;(.*?)&quot;/" />
+    <set id="07405802805442363" name="viewstate" paramoutput="true" value="/id=&quot;javax.faces.ViewState&quot; value=&quot;(.*?)&quot;/" decode="URLEncode" />
+    <set id="026526212226599455" name="#search" url="http://www.pagesjaunes.fr${action}" requestfields="Header" postrequest="true" postdata="searchAIForm=searchAIForm&amp;annuaireInverse=${telnr}&amp;btnValidSearch=&amp;javax.faces.ViewState=${viewstate}" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;Referer:http://www.pagesjaunes.fr/pagesblanches&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36" includeheaders="true">
+      <set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;titleMain[^&gt;]*&gt;&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
+        <set id="06347983062732965" name="title" value="Nom" />
+        <set id="07708441454451531" name="value" value="/(.+)/" />
+        <set id="0026224999455735087" name="stitle" value="name" />
+      </set>
+      <set id="08448368094395846" name="field" value="/&lt;p class=&quot;itemAdresse&quot;&gt;\s*(.*?)\s*&lt;/">
+        <set id="08172364432830364" name="title" value="Adresse" />
+        <set id="04834553822875023" name="value" value="/(.+)/" />
+        <set id="07270531682297587" name="stitle" value="address" />
+      </set>
+    </set>
+  </set>
+  <set id="019259459828026593" name="search" tags="business_search,person_search">
+    <set id="007556518213823438" name="searchNameF" value="${searchName}" paramoutput="true" decode="URLEncode" />
+    <set id="04583567089866847" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="03450885624624789" name="#url" value="${url}">
+      <set id="08008291553705931" name="#emptycheck" value="/^()$/">
+        <set id="031575261102989316" name="#tagwanted" value="${tagWanted}">
+          <set id="05425089250784367" name="searchparams" paramoutput="true" value="/(business_search)&#xA;(person_search)/" decode="RegexMultiReplace" formatstring="pj4valid=true&amp;pjajax=true&amp;iehack=%E2%98%A0&amp;quiQuoiSaisi=&amp;quiQuoiNbCar=&amp;ouSaisi=&amp;ouNbCar=&amp;quoiqui=${searchNameF}&amp;ou=${searchAreaF}&#xA;pj4valid=true&amp;pjajax=true&amp;iehack=%E2%98%A0&amp;nom=${searchNameF}&amp;prenom=&amp;ou=${searchAreaF}" />
+          <set id="012395843700505793" name="searchurl" paramoutput="true" value="/(business_search)&#xA;(person_search)/" decode="RegexMultiReplace" formatstring="http://www.pagesjaunes.fr/trouverlesprofessionnels/validation/rechercheClassique.do&#xA;http://www.pagesjaunes.fr/pagesblanches/RecherchePagesBlanchesExpress.do" />
+        </set>
+        <set id="03056182761210948" name="urldata" url="${searchurl}" postrequest="true" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36" postdata="${searchparams}" paramoutput="true">
+          <set id="09542034480255097" name="urldata" url="/goodxSEO:(.*)/" paramoutput="true" />
+        </set>
+      </set>
+      <set id="08538798203226179" name="#nonemptycheck" value="/^(.+)$/">
+        <set id="024848915077745914" name="urldata" url="${url}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36" paramoutput="true" />
+      </set>
+    </set>
+    <set id="019354051467962563" name="#load" value="${urldata}">
+      <set id="02279629276599735" name="result" value="/&lt;li id=&quot;lrVisitCard[^&gt;]*&gt;(.*?)(?=&lt;li id=&quot;lrVisitCard|&lt;div class=&quot;userContrib)|&lt;li class=&quot;shadow visitCard[^&gt;]*&gt;(.*?)(?=&lt;li class=&quot;shadow visitCard|&lt;div class=&quot;blockGauge)/">
+        <set id="021994101465679705" name="#name" value="/&lt;h2[^&gt;]*&gt;(.*?)&lt;/h2&gt;/">
+          <set id="016665523778647184" name="name" value="/&lt;span class=&quot;buttonMoreDetails&quot;&gt;.*?&lt;/span&gt;&#xA;\s*&lt;.*?&gt;\s*/" decode="RegexMultiReplace" formatstring="&#xA;" />
+        </set>
+        <set id="05842621910851449" name="url" value="/&lt;h2.*?href=&quot;(!#null)(.*?)&quot;/" />
+        <set id="05778439524583519" name="#url" value="/&lt;h2.*?data-pjlb=&quot;.*?&amp;quot;#(.*?)&amp;quot;/" decode="base64">
+          <set id="041239053080789745" name="url" value="/(.+)/" decode="FormatString" formatstring="http://www.pagesjaunes.fr{0}" />
+        </set>
+        <set id="025088422279804945" name="type" value="/(class=&quot;companyName&quot;)/" decode="FormatString" formatstring="business" />
+        <set id="09308982812799513" name="type" value="/(titleMainPb&quot;&gt;)/" decode="FormatString" formatstring="person" />
+        <set id="034235307900235057" name="#address" value="/&lt;div class=&quot;localisationBlock&quot;&gt;\s*(.*?)\s*&lt;/p&gt;/">
+          <set id="05708588482812047" name="#address" value="/&lt;p[^&gt;]*&gt;&#xA;&lt;br[^&gt;]*&gt;/" decode="RegexMultiReplace" formatstring="&#xA;,">
+            <set id="04576123065780848" name="address" value="/(.+)/" decode="XML" />
+          </set>
+        </set>
+        <set id="03412845656275749" name="#number" value="/&lt;li class=&quot;hideTel&quot;&gt;\n*(?!fax)(.*?)&lt;/li&gt;/">
+          <set id="08848961621988565" name="number" value="/&lt;strong&gt;\.?([\d ]*?)&lt;/strong&gt;/" />
+        </set>
+      </set>
+      <set id="020074535394087434" name="next" value="/&lt;li class=&quot;linkNext&quot;&gt;(.*?)&lt;/li&gt;/">
+        <set id="01398697334807366" name="tagWanted" value="${tagWanted}" />
+        <set id="00062188522424548864" name="context" input="019354051467962563" value="/var idContext=&quot;([-\d]+)&quot;/" paramoutput="true" />
+        <set id="05722307751420885" name="#url" value="/&amp;quot;#(.*?)&amp;quot;/" decode="base64">
+          <set id="019253051397390664" name="#url" value="/(.+)/" decode="RelativeURL">
+            <set id="017910427344031632" name="url" value="/(.+)/" decode="FormatString" formatstring="{0}&amp;idContext=${context}" />
+          </set>
+        </set>
+        <set id="044309581350535154" name="url" value="/href=&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.pagesjaunes.fr{0}" />
+      </set>
+    </set>
+  </set>
+</robot>

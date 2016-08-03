@@ -1,0 +1,73 @@
+<robot>
+  <meta>
+    <name>11888.gr</name>
+    <country>GR</country>
+    <revision>1</revision>
+    <minversion>5</minversion>
+    <description>Greek online phonebook and lookup</description>
+    <icon>http://phonehook.omnight.com/logos/11888.png</icon>
+    <link>http://www.11888.gr/</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="00828012484125793" name="#load" url="http://www.11888.gr/list-names?_wpType=number&amp;_wpPhone=${telnr}" encoding="utf-8">
+      <set id="08003798089921474" name="#result" value="/&lt;li data-index(.*?)&lt;/li&gt;/">
+        <set id="06805852199904621" name="field" value="/&lt;span class=&quot;title&quot;&gt;(.*?)&lt;/span&gt;/" decode="XML">
+          <set id="09425465010572225" name="title" value="Name" />
+          <set id="010049696615897119" name="value" value="/(.+)/" />
+          <set id="09075334491208196" name="stitle" value="name" />
+        </set>
+        <set id="01730745113454759" name="field" value="/&lt;div class=&quot;address&quot;&gt;(.*?)&lt;/div&gt;/" decode="XML">
+          <set id="03929541604593396" name="title" value="Address" />
+          <set id="08339874274097383" name="value" value="/(.+)/" />
+          <set id="08988121983129531" name="stitle" value="address" />
+        </set>
+      </set>
+    </set>
+  </set>
+  <set id="05359130720607936" name="search" tags="person_search">
+    <set id="0596493452321738" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="07056987995747477" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="07273261479567736" name="#url" value="${url}">
+      <set id="0871825325768441" name="#empty" value="/^()$/">
+        <set id="09508526441641152" name="url" paramoutput="true" value="http://www.11888.gr/list-names?_wpType=name&amp;_wpName=${searchNameF}&amp;_wpWhere=${searchAreaF}" />
+      </set>
+    </set>
+    <set id="009132295311428607" name="#search" url="${url}">
+      <set id="05555559967178851" name="result" value="/&lt;li data-index(.*?)&lt;/li&gt;/">
+        <set id="04472459782846272" name="name" value="/&lt;span class=&quot;title&quot;&gt;(.*?)&lt;/span&gt;/" decode="XML" />
+        <set id="08018256863579154" name="address" value="/&lt;div class=&quot;address&quot;&gt;(.*?)&lt;/div&gt;/" decode="XML" />
+        <set id="09168580765835941" name="type" value="person" />
+        <set id="011368214501999319" name="url" value="${url}" />
+        <set id="08662067772820592" name="number" value="/&lt;div class=&quot;phone&quot;&gt;(.*?)&lt;/div&gt;/" />
+      </set>
+      <set id="05393642638809979" name="next" value="/&lt;a href=&quot;([^&quot;]*?)&quot;[^&gt;]*class=&quot;next&quot;/" decode="XML">
+        <set id="07623757484834641" name="tagWanted" value="${tagWanted}" />
+        <set id="07674349364824593" name="url" value="/(.+)/" />
+      </set>
+    </set>
+  </set>
+  <set id="0892178907757625" name="search_business" tags="business_search">
+    <set id="09665933127980679" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="07414839337579906" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="09761018466670066" name="#url" value="${url}">
+      <set id="009726609173230827" name="#empty" value="/^()$/">
+        <set id="08577248610090464" name="url" paramoutput="true" value="http://www.11888.gr/search/${searchNameF}/${searchAreaF}" />
+      </set>
+    </set>
+    <set id="05703714287374169" name="#search" url="${url}">
+      <set id="07956855893135071" name="result" value="/&lt;li[^&gt;]*data-index(.*?)&lt;/li&gt;/">
+        <set id="03541232035495341" name="name" value="/&lt;a[^&gt;]*class=&quot;title&quot;&gt;(.*?)&lt;/a&gt;/" decode="XML" />
+        <set id="08351527673657984" name="address" value="/&lt;div class=&quot;phone-address&quot;&gt;.*?&lt;span&gt;(.*?)&lt;/span&gt;/" decode="XML" />
+        <set id="07445210891310126" name="type" value="business" />
+        <set id="06880182684399188" name="url" value="/&lt;a[^&gt;]*href=&quot;(.*?)&quot;[^&gt;]*class=&quot;title&quot;&gt;/" decode="XML" />
+        <set id="09086532923392951" name="#number" value="/&lt;div class=&quot;phone-address&quot;&gt;(.*?)&lt;br/">
+          <set id="07788469204679132" name="number" value="/(\d+)/" />
+        </set>
+      </set>
+      <set id="006997904973104596" name="next" value="/&lt;a href=&quot;([^&quot;]*?)&quot;[^&gt;]*class=&quot;next&quot;/">
+        <set id="09318213441874832" name="url" value="/(.+)/" />
+        <set id="05259948691818863" name="tagWanted" value="${tagWanted}" />
+      </set>
+    </set>
+  </set>
+</robot>

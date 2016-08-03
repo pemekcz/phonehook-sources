@@ -1,0 +1,43 @@
+<robot>
+  <meta>
+    <name>ABCTelefonos.com</name>
+    <country>ES</country>
+    <revision>2</revision>
+    <description>Spanish phone directory. Does not support reverse number lookup for Spain.
+	
+</description>
+    <icon>http://www.abctelefonos.com/images/logo-abc.png</icon>
+    <minversion>5</minversion>
+    <link>http://www.abctelefonos.com</link>
+  </meta>
+  <set id="root" name="search" tags="person_search,business_search">
+    <set id="005164888966828585" name="#type" value="${tagWanted}">
+      <set id="01228917280677706" name="type" paramoutput="true" value="/search_person&#xA;search_business/" decode="RegexMultiReplace" formatstring="persona&#xA;comercio" />
+    </set>
+    <set id="0523093247320503" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" formatstring="windows-1252" />
+    <set id="028427040739916265" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" formatstring="windows-1252" />
+    <set id="03818008992820978" name="#url" value="${url}">
+      <set id="09257173135410994" name="#isEmpty" value="/^()$/">
+        <set id="05653857390861958" name="url" paramoutput="true" value="http://en.abctelefonos.com/search?q=${searchNameF}&amp;l=${searchAreaF}&amp;t=${type}&amp;country=all" />
+      </set>
+    </set>
+    <set id="047415460855700076" name="#doSearch" url="${url}" encoding="windows-1252">
+      <set id="02792580290697515" name="result" value="/(&lt;div class=&quot;resultItem[^&gt;]*&gt;.*?)(?=&lt;div class=&quot;resultItem|&lt;div class=&quot;pager)/">
+        <set id="09755187772680074" name="name" value="/&lt;span itemprop=&quot;name&quot;&gt;(.*?)\s*&lt;/span&gt;/" />
+        <set id="05156924491748214" name="#address" value="/&lt;span[^&gt;]*itemprop=&quot;address&quot;[^&gt;]*&gt;&lt;a[^&gt;]*&gt;&lt;span[^&gt;]*&gt;(.*?)&lt;/span&gt;&lt;/a/">
+          <set id="008758887206204236" name="address" value="/&lt;/span&gt;&lt;span[^&gt;]*&gt;/" decode="RegexReplace" formatstring="&#xA;" />
+        </set>
+        <set id="030752720893360674" name="url" value="/&lt;span[^&gt;]class=&quot;name&quot;[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
+        <set id="07112887776456773" name="type" value="/(itemtype=&quot;http://schema.org/Person&quot;)/" decode="FormatString" formatstring="person" />
+        <set id="06547845320310444" name="type" value="/(itemtype=&quot;http://schema.org/LocalBusiness&quot;)/" decode="FormatString" formatstring="business" />
+        <set id="06153972325846553" name="#number" value="/&lt;span[^&gt;]*itemprop=&quot;telephone&quot;[^&gt;]*&gt;(.*?)&lt;/span&gt;/">
+          <set id="06226262003183365" name="number" value="/\./" decode="RegexReplace" formatstring=" " />
+        </set>
+      </set>
+      <set id="09054678403772414" name="next">
+        <set id="0126590316882357" name="url" value="/&lt;a href=&quot;([^&quot;]*)&quot;&gt;Next/" decode="RelativeURL" />
+        <set id="0517615064047277" name="tagWanted" value="${tagWanted}" />
+      </set>
+    </set>
+  </set>
+</robot>
