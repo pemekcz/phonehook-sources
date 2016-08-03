@@ -1,1 +1,1 @@
-[{"name":"test00","ver":"1"},{"name":"Hitta.se","ver":"5"},{"name":"VemRingde.se","ver":"3"},{"name":"atest","ver":"1"},{"name":"test","ver":"1"},{"name":"13test","ver":"3"}]
+[{"n":"test00","v":1,"f":"test3.xml"},{"n":"Hitta.se","v":5,"f":"se_hitta.xml"},{"n":"VemRingde.se","v":3,"f":"se_vemringde.xml"},{"n":"atest","v":1,"f":"test2.xml"},{"n":"test","v":1,"f":"test.xml"},{"n":"13test","v":3,"f":"test4.xml"}]
