@@ -1,26 +1,29 @@
 <robot>
   <meta>
     <name>MerInfo.se</name>
-    <country>SE</country>
-    <revision>4</revision>
-    <description>Födelsedag, fordon och fastighetsinnehav m.m. Login krävs för att se fullt personnummer.
-Rev 4: Ny site-design
+<country>SE</country>
+<revision>5</revision>
+<description>Födelsedag, fordon och fastighetsinnehav m.m. Login krävs för att se fullt personnummer.
+Rev 5: Fix login
 </description>
-    <icon>http://blog.merinfo.se/wp-content/uploads/2013/07/merinfo-transparent3.png</icon>
-    <param title="Username">user</param>
-    <param title="Password" type="password">pass</param>
-    <link>http://www.merinfo.se/</link>
-  </meta>
+<icon>http://blog.merinfo.se/wp-content/uploads/2013/07/merinfo-transparent3.png</icon>
+<param title="Username">user</param>
+<param title="Password" type="password">pass</param>
+<link>http://www.merinfo.se/</link>
+</meta>
+  
   <set id="root" name="result">
     <set id="000039530894719064236" name="user" decode="URLEncode" paramoutput="true" value="${user}" />
-    <set id="09547932320274413" name="#loginpage" url="http://www.merinfo.se/login">
-      <set id="045821737265214324" name="#login" url="http://www.merinfo.se/login" postrequest="true" postdata="user=${user}&amp;pass=${pass}&amp;csrf_test_name=${csrf}&amp;remember=on" requestfields="Header" requestvalue="Referer:http://www.merinfo.se/login&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded" encoding="windows-1252" includeheaders="true">
-        <set id="036984086385928094" name="#search" url="http://www.merinfo.se/search?who=${telnr}" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36">
+    <set id="09547932320274413" name="#loginpage" url="http://www.merinfo.se/user/login" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"><set id="0025815358993665383" name="token" paramoutput="true" value="/&lt;meta name=&quot;_token&quot; content=&quot;([^&quot;]*)/" />
+      <set id="045821737265214324" name="#login" url="http://www.merinfo.se/user/login" postrequest="true" postdata="email=${user}&amp;password=${pass}&amp;_token=${token}&amp;remember=1" requestfields="Header" requestvalue="Referer:http://www.merinfo.se/user/login&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded" encoding="windows-1252" includeheaders="true">
+        
+      </set>
+    </set><set id="036984086385928094" name="#search" url="http://www.merinfo.se/search?who=${telnr}" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36">
           <set id="011827483051456511" name="uniqid" paramoutput="true" value="/'uniqid': '([^']+)/" />
-          <set id="02668043633457273" name="#detail" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8" includeheaders="true" decode="RelativeURL" url="/&lt;a href=&quot;([^&quot;]*)&quot;&gt;&lt;h2[^&gt;]*&gt;/">
+          <set id="02668043633457273" name="#detail" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8" includeheaders="true" decode="RelativeURL" url="/&lt;h2[^&gt;]*&gt;&lt;a href=&quot;([^&quot;]*)&quot;&gt;/">
             <set id="0945750484475866" name="uuid" value="/uuid: &quot;(.*?)&quot;/" paramoutput="true" />
             <set id="02554032306652516" name="token" paramoutput="true" value="/_token&quot; content=&quot;(.*?)&quot;/" />
-            <set id="03629095854703337" name="field" value="/&lt;div class=&quot;header-name&quot;&gt;\s*&lt;h1&gt;&lt;a.*?&gt;(.*?)&lt;/" resultrange="0">
+            <set id="03629095854703337" name="field" value="/&lt;h1&gt;&lt;a[^&gt;]*&gt;(.*?)&lt;/" resultrange="0">
               <set id="03326585409231484" name="title" value="Namn" />
               <set id="09030311885289848" name="value" value="/(.+)/" />
               <set id="027113374625332654" name="stitle" value="name" />
@@ -71,7 +74,5 @@ Rev 4: Ny site-design
             </set>
           </set>
         </set>
-      </set>
-    </set>
   </set>
 </robot>

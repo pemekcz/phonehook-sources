@@ -1,15 +1,16 @@
 <robot>
   <meta>
     <name>krak</name>
-    <country>DK</country>
-    <revision>2</revision>
-    <minversion>6</minversion>
-    <description>Online phonebook
-Rev. 2: Added search</description>
-    <icon>http://phonehook.omnight.com/logos/dk_krak.png</icon>
-    <link>http://www.krak.dk</link>
-  </meta>
-  <set id="root" name="lookup" url="http://www.krak.dk/query?what=all&amp;search_word=${telnr}&amp;geo_area=&amp;btn_all=" tags="lookup">
+<country>DK</country>
+<revision>3</revision>
+<minversion>6</minversion>
+<description>Online phonebook
+Rev. 3: Minor url update</description>
+<icon>http://phonehook.omnight.com/logos/dk_krak.png</icon>
+<link>http://www.krak.dk</link>
+</meta>
+  
+  <set id="root" name="lookup" url="http://www.krak.dk/query?what=supersearch&amp;search_word=${telnr}" tags="lookup">
     <set id="08467272333800793" name="field" value="/&lt;h2 class=&quot;hit-name&quot;&gt;(.*)&lt;/h2&gt;/">
       <set id="05736345457844436" name="title" value="Navn" />
       <set id="06674937077332288" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
@@ -26,30 +27,28 @@ Rev. 2: Added search</description>
   <set id="020616630977019668" name="search" tags="business_search,person_search">
     <set id="02080494104884565" name="searchNameF" value="${searchName}" decode="URLEncode" paramoutput="true" />
     <set id="09878204383421689" name="searchAreaF" value="${searchArea}" decode="URLEncode" paramoutput="true" />
-    <set id="03340311851352453" name="#searchAreaF" value="${searchAreaF}">
-      <set id="05947268379386514" name="searchAreaF" value="/(.+)/" decode="FormatString" formatstring="/{0}" paramoutput="true" />
-    </set>
+    
     <set id="009927198989316821" name="#page" value="${page}">
       <set id="08808085671626031" name="pageF1" value="/(.+)/" decode="FormatString" formatstring="/p:{0}" paramoutput="true" />
       <set id="082136922609061" name="pageF2" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="/{0}" />
     </set>
     <set id="042778896167874336" name="#url" value="${tagWanted}">
-      <set id="09994009949732572" name="url" value="/(business_search)&#xA;(person_search)/" decode="RegexMultiReplace" formatstring="http://www.krak.dk/${searchNameF}${searchAreaF}${pageF1}/s%C3%B8g.cs&#xA;http://www.krak.dk/person/resultat/${searchNameF}${searchAreaF}${pageF2}" paramoutput="true" />
+      <set id="09994009949732572" name="url" value="/(business_search)&#xA;(person_search)/" paramoutput="true" decode="RegexMultiReplace" formatstring="http://www.krak.dk/${searchNameF}%20${searchAreaF}${pageF1}/s%C3%B8g.cs&#xA;http://www.krak.dk/person/resultat/${searchNameF}%20${searchAreaF}${pageF2}" />
     </set>
     <set id="023957440303638577" name="#search" url="${url}">
       <set id="010339317354373634" name="#hitArea" value="/&lt;ol class=&quot;hit-list&quot;[^&gt;]*&gt;(.*?)&lt;/ol&gt;/">
-        <set id="05924396445043385" name="result" value="/&lt;article[^&gt;]*(?:non-paying|default-hit)[^&gt;]*&gt;(.*?)&lt;/article&gt;/">
+        <set id="05924396445043385" name="result" value="/&lt;article[^&gt;]*(?:hit)[^&gt;]*&gt;(.*?)&lt;/article&gt;/">
           <set id="07184390858747065" name="name" value="/&lt;a class=&quot;[^&gt;]*profile-page-link[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/" />
           <set id="044804699858650565" name="url" value="/&lt;a class=&quot;[^&gt;]*profile-page-link[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
           <set id="031982868048362434" name="address" value="/&lt;span class=&quot;(?:hit-street-address|street-address)&quot;&gt;\s*(.*?)[,\s]*&lt;/span&gt;.*?&lt;span class=&quot;(?:postal-code|hit-postal-code)&quot;&gt;\s*(.*?)\s*&lt;/span&gt;.*?&lt;span class=&quot;(?:locality|hit-address-locality)&quot;&gt;\s*(.*?)\s*&lt;/span&gt;/" decode="FormatString" formatstring="{0}, {1} {2}" />
           <set id="08040194292552769" name="#numberArea" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
-            <set id="06369927527848631" name="number" value="/&lt;span class=&quot;hit-phone-number[^&gt;]*&gt;(.*?)\s*&lt;/span&gt;/" />
+            <set id="06369927527848631" name="number" value="/&lt;a[^&gt;]*data-phone=&quot;([^&quot;]*)/" />
           </set>
           <set id="05857617647852749" name="type" value="/(&lt;span class=&quot;icon-description&quot;&gt;Person&lt;/span&gt;)/" decode="FormatString" formatstring="person" />
           <set id="037293665879406035" name="type" value="/(&lt;span class=&quot;icon-description&quot;&gt;Firma&lt;/span&gt;)/" decode="FormatString" formatstring="business" />
         </set>
       </set>
-      <set id="09139369821641594" name="next" value="/&lt;li class=&quot;page-next&quot;&gt;.*?href=&quot;.*?(\d+)&quot;/">
+      <set id="09139369821641594" name="next" value="/&lt;li class=&quot;page-next&quot;&gt;.*?href=&quot;[^&quot;]*?(?&lt;=/|:)(\d+)/">
         <set id="045969781815074384" name="page" value="/(.+)/" />
         <set id="036959049431607127" name="searchName" value="${searchName}" />
         <set id="07103115585632622" name="searchArea" value="${searchArea}" />

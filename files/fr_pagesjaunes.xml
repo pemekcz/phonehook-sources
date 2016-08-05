@@ -1,28 +1,26 @@
 <robot>
   <meta>
     <name>PagesJaunes</name>
-    <country>FR</country>
-    <revision>2</revision>
-    <minversion>7</minversion>
-    <description>Online phonebook
-Rev. 2: Added search</description>
-    <icon>http://phonehook.omnight.com/logos/fr_pagesjaunes.png</icon>
-  </meta>
-  <set id="root" name="result" url="http://www.pagesjaunes.fr/pagesblanches/aquiestcenumero.do?fromSCC=true&amp;pjajax=true">
-    <set id="00899613038636744" name="action" paramoutput="true" value="/action=&quot;(.*?)&quot;/" />
-    <set id="07405802805442363" name="viewstate" paramoutput="true" value="/id=&quot;javax.faces.ViewState&quot; value=&quot;(.*?)&quot;/" decode="URLEncode" />
-    <set id="026526212226599455" name="#search" url="http://www.pagesjaunes.fr${action}" requestfields="Header" postrequest="true" postdata="searchAIForm=searchAIForm&amp;annuaireInverse=${telnr}&amp;btnValidSearch=&amp;javax.faces.ViewState=${viewstate}" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;Referer:http://www.pagesjaunes.fr/pagesblanches&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36" includeheaders="true">
-      <set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;titleMain[^&gt;]*&gt;&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
+<country>FR</country>
+<revision>3</revision>
+<minversion>7</minversion>
+<description>Online phonebook
+Rev. 3: Site update</description>
+<icon>http://phonehook.omnight.com/logos/fr_pagesjaunes.png</icon>
+</meta>
+  
+  <set id="root" name="result" url="http://www.pagesjaunes.fr/annuaireinverse/recherche?quoiqui=${telnr}&amp;proximite=0" postrequest="true" postdata="quoiqui=${telnr}" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded">
+    
+    <set id="0188700559749583" name="#match" value="/&lt;article(.*?)&lt;/article&gt;/"><set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;company-name[^&gt;]*&gt;\s*&lt;a[^&gt;]*title=&quot;(.*?)&quot;/">
         <set id="06347983062732965" name="title" value="Nom" />
-        <set id="07708441454451531" name="value" value="/(.+)/" />
+        <set id="07708441454451531" name="value" value="/(.+)/" decode="XML" />
         <set id="0026224999455735087" name="stitle" value="name" />
-      </set>
-      <set id="08448368094395846" name="field" value="/&lt;p class=&quot;itemAdresse&quot;&gt;\s*(.*?)\s*&lt;/">
+      </set><set id="08448368094395846" name="field" value="/&lt;div class=&quot;adresse-container&quot;&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
         <set id="08172364432830364" name="title" value="Adresse" />
-        <set id="04834553822875023" name="value" value="/(.+)/" />
+        <set id="04834553822875023" name="value" value="/(.+)/" decode="XML" />
         <set id="07270531682297587" name="stitle" value="address" />
-      </set>
-    </set>
+      </set></set>
+    
   </set>
   <set id="019259459828026593" name="search" tags="business_search,person_search">
     <set id="007556518213823438" name="searchNameF" value="${searchName}" paramoutput="true" decode="URLEncode" />

@@ -11,7 +11,7 @@
   <set id="root" name="lookup" tags="lookup">
     <set id="0033227825219560136" name="#load" url="http://www.whitepages.com/phone/${telnr}" requestfields="Header" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#xA;Accept-Encoding:gzip, deflate, sdch&#xA;Accept-Language:sv-SE,sv;q=0.8,en-US;q=0.6,en;q=0.4&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Referer:http://www.whitepages.com/" includeheaders="true">
       <set id="08819316687745697" name="field" value="/dfpSetTargetingParams\[&quot;rfn&quot;\] = &quot;(.*?)&quot;;.*?dfpSetTargetingParams\[&quot;rln&quot;\] = &quot;(.*?)&quot;;/" resultrange="0" decode="FormatString" formatstring="{0} {1}">
-        <set id="06177868336447403" name="value" value="/(.*)/" decode="XML" />
+        <set id="06177868336447403" name="value" value="/(.+)/" decode="XML" />
         <set id="07169200713284662" name="title" value="Name" />
         <set id="06916790150311913" name="stitle" value="name" />
       </set>

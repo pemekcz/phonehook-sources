@@ -1,17 +1,18 @@
 <robot>
   <meta>
     <name>EveryCaller</name>
-    <country>_ALL</country>
-    <revision>1</revision>
-    <minversion>9</minversion>
-    <description>Registry of scammers and telemarketers</description>
-    <link>https://www.everycaller.com</link>
-    <icon>http://phonehook.omnight.com/logos/everycall-logo.png</icon>
-  </meta>
+<country>_ALL</country>
+<revision>2</revision>
+<minversion>9</minversion>
+<description>Registry of scammers and telemarketers. Rev 2: Clean up</description>
+<link>https://www.everycaller.com</link>
+<icon>http://phonehook.omnight.com/logos/everycall-logo.png</icon>
+</meta>
+  
   <set id="root" name="Root" tags="lookup,block">
     <set id="0056419352535158396" name="telnrF" paramoutput="true" value="${telnrInt}" decode="URLEncode" />
     <set id="026062839454971254" name="#result" url="http://www.everycaller.com/search/?q=${telnrF}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36">
-      <set id="09962414193432778" name="field" value="/&lt;div class=&quot;caller-name&quot;&gt;\s*&lt;span&gt;(?!&lt;a)(.*?)&lt;/span&gt;/">
+      <set id="09962414193432778" name="field" value="/&lt;div class=&quot;caller-name&quot;&gt;\s*&lt;span&gt;\s*&lt;a[^&gt;]*&gt;(?!Caller Name)(.*?)&lt;/" decode="XML">
         <set id="05712042630184442" name="title" value="Name" />
         <set id="011805187375284731" name="value" value="/(.+)/" />
         <set id="07327966301236302" name="stitle" value="name" />
