@@ -2,32 +2,30 @@
   <meta>
     <name>1885</name>
     <country>NO</country>
-    <revision>2</revision>
+    <revision>3</revision>
     <minversion>5</minversion>
     <description>Online phonebook
-
-Rev. 2: Added search</description>
+Rev. 3: People search/lookup gone</description>
     <icon>http://phonehook.omnight.com/logos/1885.png</icon>
     <link>http://1185.no</link>
   </meta>
-  <set id="root" name="lookup" url="http://telefonkatalog.1885.no/sok/${telnr}" tags="lookup">
-    <set id="08467272333800793" name="field" value="/&lt;h1&gt;&lt;span itemprop=&quot;name&quot;&gt;(.*?)&lt;/span&gt;/">
-      <set id="05736345457844436" name="title" value="Navn" />
-      <set id="06674937077332288" name="value" value="/(.+)/" />
-      <set id="024491121340543032" name="stitle" value="name" />
-    </set>
-    <set id="01339481878094375" name="field" value="/&lt;div class=&quot;address&quot;&gt;(.*?)\s*&lt;/">
-      <set id="06151134073734283" name="title" value="Adresse" />
-      <set id="0984494469827041" name="value" value="/(.+)/" />
-      <set id="0729940124321729" name="stitle" value="address" />
-    </set>
-    <set id="06076444028876722" name="field" value="/&lt;time[^&gt;]*&gt;(\d+)&lt;/time&gt;/">
-      <set id="0597947992850095" name="title" value="Alder" />
-      <set id="04397280646953732" name="value" value="/(.+)/" />
-      <set id="07898832163773477" name="stitle" value="age" />
+  <set id="root" name="lookup" url="http://1885.no/sok/${telnr}" tags="lookup">
+    <set id="022852700949928906" name="#itemscope" value="/(&lt;div[^&gt;]*itemscope[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" resultrange="0">
+      <set id="08467272333800793" name="field" value="/&lt;span[^&gt;]*itemprop=&quot;name&quot;&gt;(.*?)&lt;/span&gt;/" decode="XML">
+        <set id="05736345457844436" name="title" value="Navn" />
+        <set id="06674937077332288" name="value" value="/(.+)/" />
+        <set id="024491121340543032" name="stitle" value="name" />
+      </set>
+      <set id="01339481878094375" name="field" value="/(&lt;div[^&gt;]*class=&quot;address[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" decode="FormatString" formatstring="{0}">
+        <set id="06151134073734283" name="title" value="Adresse" />
+        <set id="023037840179825886" name="#nbsp" value="/&amp;nbsp;/" decode="RegexReplace" formatstring=" ">
+          <set id="0984494469827041" name="value" value="/&lt;[^&gt;]*&gt;&#xA;^\s*|\s*$/" decode="RegexMultiReplace" formatstring="&#xA;" />
+        </set>
+        <set id="0729940124321729" name="stitle" value="address" />
+      </set>
     </set>
   </set>
-  <set id="0801143862772733" name="person_search" tags="person_search,business_search">
+  <set id="0801143862772733" name="search" tags="business_search">
     <set id="041807422763668" name="searchF" value="${searchName} ${searchArea}" paramoutput="true" decode="URLEncode" />
     <set id="03541322036180645" name="#url" value="${url}">
       <set id="007852589734829962" name="#empty" value="/^()$/">

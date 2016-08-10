@@ -18,6 +18,7 @@
         <set id="012926276307553053" name="field" value="/(.+)/">
           <set id="01356709327083081" name="title" value="Riktnummer" />
           <set id="005891523603349924" name="value" value="/(.+)/" />
+          <set id="02890233134507254" name="stitle" value="areacode" />
         </set>
       </set>
     </set>

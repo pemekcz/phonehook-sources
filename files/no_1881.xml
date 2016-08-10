@@ -1,0 +1,49 @@
+<robot>
+  <meta>
+    <name>1881.no</name>
+    <country>NO</country>
+    <revision>1</revision>
+    <minversion>4</minversion>
+    <description>Norwegian lookup and search</description>
+    <link>https://www.1881.no</link>
+    <icon>https://omnight.github.io/phonehook-sources/logos/1881.no.png</icon>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="009999765782290204" name="#load" url="http://www.1881.no/?query=${telnr}">
+      <set id="0030341790409376346" name="field" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing__name[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML">
+        <set id="010724296969245994" name="stitle" value="name" />
+        <set id="06066502444273367" name="title" value="Name" />
+        <set id="027979630662729615" name="value" value="/(.+)/" />
+      </set>
+      <set id="012107471982463314" name="field" value="/&lt;li[^&gt;]*class=&quot;[^&quot;]*listing__address[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML">
+        <set id="0381606800909311" name="stitle" value="address" />
+        <set id="046390287394880314" name="title" value="Address" />
+        <set id="09657517372661837" name="value" value="/(.+)/" />
+      </set>
+    </set>
+  </set>
+  <set id="02143484073988211" name="search" tags="person_search,business_search">
+    <set id="08197912619595886" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+    <set id="06720638502839082" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="047426258755121387" name="#tagName" value="${tagWanted}">
+      <set id="0593573631677671" name="tagNameF" paramoutput="true" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="&amp;type=person&#xA;&amp;type=firma&amp;view=l" />
+    </set>
+    <set id="08267682140721886" name="#url" value="${url}">
+      <set id="010143137786186984" name="url" value="/^()$/" decode="FormatString" formatstring="http://www.1881.no/?query=${searchNameF}+${searchAreaF}${tagNameF}" paramoutput="true" />
+    </set>
+    <set id="035336514562071075" name="#load" url="${url}">
+      <set id="06469495479535021" name="result" value="/(&lt;div[^&gt;]*class=&quot;[^&quot;]*listing[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/">
+        <set id="028681456154693397" name="name" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing__name[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML" />
+        <set id="08516571164332833" name="address" value="/&lt;li[^&gt;]*class=&quot;[^&quot;]*listing__address[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML" />
+        <set id="06583263887471584" name="number" value="/&lt;p[^&gt;]*class=&quot;[^&quot;]*listing__phone[^&gt;]*&gt;\s*(.*?)&lt;/p&gt;/" />
+        <set id="09834917239914611" name="url" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing__name[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
+        <set id="05979393062202354" name="#type" value="/^&lt;div class=&quot;(.*?)&quot;/">
+          <set id="0679871514784546" name="type" value="/.*listing--business.*&#xA;^(?!business).*/" decode="RegexMultiReplace" formatstring="business&#xA;person" />
+        </set>
+      </set>
+      <set id="0013084975239679109" name="next" value="/&lt;li class=&quot;pager__next&quot;&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;|&lt;p class=&quot;link-more&quot;&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;[^&gt;]*&gt;[^&lt;]*firmanavn/" decode="XML" resultrange="0">
+        <set id="001031344303433035" name="url" value="/(.+)/" decode="RelativeURL" />
+      </set>
+    </set>
+  </set>
+</robot>

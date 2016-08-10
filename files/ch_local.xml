@@ -1,14 +1,15 @@
 <robot>
   <meta>
     <name>local.ch</name>
-    <country>CH</country>
-    <revision>2</revision>
-    <minversion>5</minversion>
-    <description>Online phonebook
-Rev. 2: Search added</description>
-    <icon>http://phonehook.omnight.com/logos/ch_local.png</icon>
-    <link>http://www.local.ch/</link>
-  </meta>
+<country>CH</country>
+<revision>3</revision>
+<minversion>5</minversion>
+<description>Online phonebook
+Rev. 3: Search paging fix</description>
+<icon>http://phonehook.omnight.com/logos/ch_local.png</icon>
+<link>http://www.local.ch/</link>
+</meta>
+  
   <set id="root" name="lookup" url="http://www.local.ch/en/api/as3/suggestwhatwhere?focus=what&amp;hl=markup&amp;lang=en&amp;slot=web&amp;what=${telnr}&amp;where=&amp;wt=json" tags="lookup">
     <set id="020542345917783678" name="field" value="/&quot;what&quot;\s*:\s*&quot;(.*?)(?&lt;!\\)&quot;/" decode="JSON">
       <set id="000004126690328121185" name="title" value="Name" />
@@ -40,14 +41,14 @@ Rev. 2: Search added</description>
     <set id="00858614519238472" name="#load" url="${url}">
       <set id="032043428951874375" name="result" value="/&lt;div class='[^']*local-listing(.*?)(?=&lt;div class='[^']*local-listing|&lt;div class='pagination'&gt;)/">
         <set id="018381808255799115" name="name" value="/&lt;h2&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" />
-        <set id="013509462517686188" name="url" value="/&lt;h2&gt;\s*&lt;a href=&quot;(.*?)&quot;/" decode="XML" />
+        <set id="013509462517686188" name="url" value="/&lt;h2&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="XML" />
         <set id="06522239800542593" name="type" paramoutput="true" value="person" />
         <set id="06384163110051304" name="type" paramoutput="true" value="/(&lt;span class='categories)/" decode="FormatString" formatstring="business" />
         <set id="0674736330518499" name="type" value="${type}" />
         <set id="0594049776205793" name="address" value="/&lt;span class='address'&gt;(.*?)&lt;/span&gt;/" />
         <set id="07191465995274484" name="number" value="/&lt;a[^&gt;]*class=&quot;number&quot;[^&gt;]*&gt;(.*?)&lt;/a&gt;/" />
       </set>
-      <set id="010383379925042391" name="next" value="/&lt;span class='next'&gt;\s*&lt;a href=&quot;(.*?)&quot;/" decode="XML">
+      <set id="010383379925042391" name="next" value="/&lt;span class='next'&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="XML">
         <set id="008688744250684977" name="url" value="/(.+)/" decode="RelativeURL" />
         <set id="05285769768524915" name="tagWanted" value="${tagWanted}" />
       </set>

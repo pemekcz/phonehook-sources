@@ -12,7 +12,7 @@
   </meta>
   <set id="root" name="search" tags="person_search,business_search">
     <set id="005164888966828585" name="#type" value="${tagWanted}">
-      <set id="01228917280677706" name="type" paramoutput="true" value="/search_person&#xA;search_business/" decode="RegexMultiReplace" formatstring="persona&#xA;comercio" />
+      <set id="01228917280677706" name="type" paramoutput="true" value="/person_search&#xA;business_search/" decode="RegexMultiReplace" formatstring="persona&#xA;comercio" />
     </set>
     <set id="0523093247320503" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" formatstring="windows-1252" />
     <set id="028427040739916265" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" formatstring="windows-1252" />

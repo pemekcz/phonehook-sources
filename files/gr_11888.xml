@@ -32,7 +32,7 @@
         <set id="09508526441641152" name="url" paramoutput="true" value="http://www.11888.gr/list-names?_wpType=name&amp;_wpName=${searchNameF}&amp;_wpWhere=${searchAreaF}" />
       </set>
     </set>
-    <set id="009132295311428607" name="#search" url="${url}">
+    <set id="009132295311428607" name="#search" url="${url}" encoding="utf-8">
       <set id="05555559967178851" name="result" value="/&lt;li data-index(.*?)&lt;/li&gt;/">
         <set id="04472459782846272" name="name" value="/&lt;span class=&quot;title&quot;&gt;(.*?)&lt;/span&gt;/" decode="XML" />
         <set id="08018256863579154" name="address" value="/&lt;div class=&quot;address&quot;&gt;(.*?)&lt;/div&gt;/" decode="XML" />
@@ -54,7 +54,7 @@
         <set id="08577248610090464" name="url" paramoutput="true" value="http://www.11888.gr/search/${searchNameF}/${searchAreaF}" />
       </set>
     </set>
-    <set id="05703714287374169" name="#search" url="${url}">
+    <set id="05703714287374169" name="#search" url="${url}" encoding="utf-8">
       <set id="07956855893135071" name="result" value="/&lt;li[^&gt;]*data-index(.*?)&lt;/li&gt;/">
         <set id="03541232035495341" name="name" value="/&lt;a[^&gt;]*class=&quot;title&quot;&gt;(.*?)&lt;/a&gt;/" decode="XML" />
         <set id="08351527673657984" name="address" value="/&lt;div class=&quot;phone-address&quot;&gt;.*?&lt;span&gt;(.*?)&lt;/span&gt;/" decode="XML" />

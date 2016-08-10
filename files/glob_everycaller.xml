@@ -1,14 +1,13 @@
 <robot>
   <meta>
     <name>EveryCaller</name>
-<country>_ALL</country>
-<revision>2</revision>
-<minversion>9</minversion>
-<description>Registry of scammers and telemarketers. Rev 2: Clean up</description>
-<link>https://www.everycaller.com</link>
-<icon>http://phonehook.omnight.com/logos/everycall-logo.png</icon>
-</meta>
-  
+    <country>_ALL</country>
+    <revision>2</revision>
+    <minversion>9</minversion>
+    <description>Registry of scammers and telemarketers. Rev 2: Clean up</description>
+    <link>https://www.everycaller.com</link>
+    <icon>http://phonehook.omnight.com/logos/everycall-logo.png</icon>
+  </meta>
   <set id="root" name="Root" tags="lookup,block">
     <set id="0056419352535158396" name="telnrF" paramoutput="true" value="${telnrInt}" decode="URLEncode" />
     <set id="026062839454971254" name="#result" url="http://www.everycaller.com/search/?q=${telnrF}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36">

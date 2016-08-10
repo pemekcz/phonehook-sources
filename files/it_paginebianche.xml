@@ -25,8 +25,10 @@
         </set>
         <set id="08129206467419863" name="field" value="/&lt;div id=&quot;addr_[^&gt;]*&gt;(.*?)&lt;/div&gt;/">
           <set id="09473300911486149" name="title" value="Address" />
-          <set id="05233296165242791" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
-            <set id="0637817389331758" name="value" value="/(.+)/" />
+          <set id="08808762231964031" name="#remove_hidden" value="/&lt;div[^&gt;]*style=&quot;display: none.*/" decode="RegexReplace">
+            <set id="05233296165242791" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+              <set id="0637817389331758" name="value" value="/(.+)/" />
+            </set>
           </set>
           <set id="0431348200654611" name="stitle" value="address" />
         </set>
@@ -45,7 +47,9 @@
           <set id="09683662238530815" name="name" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
         </set>
         <set id="045951639278791845" name="#address" value="/&lt;div id=&quot;addr_[^&gt;]*&gt;(.*?)&lt;/div&gt;/">
-          <set id="03522791098803282" name="address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+          <set id="05562018543248131" name="#remove_hidden" value="/&lt;div[^&gt;]*style=&quot;display: none.*/" decode="RegexReplace">
+            <set id="03522791098803282" name="address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+          </set>
         </set>
         <set id="08862188500352204" name="number" value="/&lt;span class=&quot;type&quot;&gt;tel:&lt;/span&gt; &lt;span class=&quot;value&quot;&gt;(.+?)&lt;/span&gt;/" />
         <set id="04886027022730559" name="#type" value="${tagWanted}">

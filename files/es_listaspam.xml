@@ -1,14 +1,13 @@
 <robot>
   <meta>
     <name>Listaspam.com</name>
-<country>ES</country>
-<revision>2</revision>
-<description>Spanish directory of spam callers.</description>
-<icon>http://static.listaspam.com/images/apple-touch-icon-152x152.png</icon>
-<minversion>9</minversion>
-<link>http://www.listaspam.com</link>
-</meta>
-  
+    <country>ES</country>
+    <revision>2</revision>
+    <description>Spanish directory of spam callers.</description>
+    <icon>http://static.listaspam.com/images/apple-touch-icon-152x152.png</icon>
+    <minversion>9</minversion>
+    <link>http://www.listaspam.com</link>
+  </meta>
   <set id="root" name="results" tags="lookup,block">
     <set id="005378254107199609" name="#load" url="http://www.listaspam.com/busca.php?Telefono=${telnr}">
       <set id="06505063909571618" name="field" value="/&lt;p class=&quot;comment_text&quot;&gt;(.*?)&lt;/p&gt;/" testrange="true" resultrange="0">

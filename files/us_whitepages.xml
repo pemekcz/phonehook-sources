@@ -4,7 +4,7 @@
     <country>US</country>
     <revision>1</revision>
     <minversion>1</minversion>
-    <description>Number lookup. Has usage limit</description>
+    <description>Number lookup. Daily usage limit</description>
     <icon>http://phonehook.omnight.com/logos/whitepages.png</icon>
     <link>http://www.whitepages.com/</link>
   </meta>
@@ -27,7 +27,7 @@
         <set id="09833086001654421" name="stitle" value="address" />
       </set>
       <set id="05213343933225125" name="field" value="/dfpSetTargetingParams\[&quot;rag&quot;\] = &quot;(.*?)&quot;/">
-        <set id="012258049864623977" name="value" value="/&lt;li[^&gt;]*&gt;Age (.*?)&lt;/li&gt;/" />
+        <set id="012258049864623977" name="value" value="/(.+)/" />
         <set id="011050499076433273" name="title" value="Age" />
         <set id="0336069292994974" name="stitle" value="age" />
       </set>

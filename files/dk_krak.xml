@@ -1,15 +1,14 @@
 <robot>
   <meta>
     <name>krak</name>
-<country>DK</country>
-<revision>3</revision>
-<minversion>6</minversion>
-<description>Online phonebook
+    <country>DK</country>
+    <revision>3</revision>
+    <minversion>6</minversion>
+    <description>Online phonebook
 Rev. 3: Minor url update</description>
-<icon>http://phonehook.omnight.com/logos/dk_krak.png</icon>
-<link>http://www.krak.dk</link>
-</meta>
-  
+    <icon>http://phonehook.omnight.com/logos/dk_krak.png</icon>
+    <link>http://www.krak.dk</link>
+  </meta>
   <set id="root" name="lookup" url="http://www.krak.dk/query?what=supersearch&amp;search_word=${telnr}" tags="lookup">
     <set id="08467272333800793" name="field" value="/&lt;h2 class=&quot;hit-name&quot;&gt;(.*)&lt;/h2&gt;/">
       <set id="05736345457844436" name="title" value="Navn" />
@@ -27,7 +26,6 @@ Rev. 3: Minor url update</description>
   <set id="020616630977019668" name="search" tags="business_search,person_search">
     <set id="02080494104884565" name="searchNameF" value="${searchName}" decode="URLEncode" paramoutput="true" />
     <set id="09878204383421689" name="searchAreaF" value="${searchArea}" decode="URLEncode" paramoutput="true" />
-    
     <set id="009927198989316821" name="#page" value="${page}">
       <set id="08808085671626031" name="pageF1" value="/(.+)/" decode="FormatString" formatstring="/p:{0}" paramoutput="true" />
       <set id="082136922609061" name="pageF2" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="/{0}" />

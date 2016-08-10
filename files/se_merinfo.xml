@@ -1,78 +1,79 @@
 <robot>
   <meta>
     <name>MerInfo.se</name>
-<country>SE</country>
-<revision>5</revision>
-<description>Födelsedag, fordon och fastighetsinnehav m.m. Login krävs för att se fullt personnummer.
+    <country>SE</country>
+    <revision>5</revision>
+    <description>Födelsedag, fordon och fastighetsinnehav m.m. Login krävs för att se fullt personnummer.
 Rev 5: Fix login
 </description>
-<icon>http://blog.merinfo.se/wp-content/uploads/2013/07/merinfo-transparent3.png</icon>
-<param title="Username">user</param>
-<param title="Password" type="password">pass</param>
-<link>http://www.merinfo.se/</link>
-</meta>
-  
+    <icon>http://blog.merinfo.se/wp-content/uploads/2013/07/merinfo-transparent3.png</icon>
+    <param title="Username">user</param>
+    <param title="Password" type="password">pass</param>
+    <link>http://www.merinfo.se/</link>
+  </meta>
   <set id="root" name="result">
     <set id="000039530894719064236" name="user" decode="URLEncode" paramoutput="true" value="${user}" />
-    <set id="09547932320274413" name="#loginpage" url="http://www.merinfo.se/user/login" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"><set id="0025815358993665383" name="token" paramoutput="true" value="/&lt;meta name=&quot;_token&quot; content=&quot;([^&quot;]*)/" />
-      <set id="045821737265214324" name="#login" url="http://www.merinfo.se/user/login" postrequest="true" postdata="email=${user}&amp;password=${pass}&amp;_token=${token}&amp;remember=1" requestfields="Header" requestvalue="Referer:http://www.merinfo.se/user/login&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded" encoding="windows-1252" includeheaders="true">
-        
-      </set>
-    </set><set id="036984086385928094" name="#search" url="http://www.merinfo.se/search?who=${telnr}" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36">
-          <set id="011827483051456511" name="uniqid" paramoutput="true" value="/'uniqid': '([^']+)/" />
-          <set id="02668043633457273" name="#detail" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8" includeheaders="true" decode="RelativeURL" url="/&lt;h2[^&gt;]*&gt;&lt;a href=&quot;([^&quot;]*)&quot;&gt;/">
-            <set id="0945750484475866" name="uuid" value="/uuid: &quot;(.*?)&quot;/" paramoutput="true" />
-            <set id="02554032306652516" name="token" paramoutput="true" value="/_token&quot; content=&quot;(.*?)&quot;/" />
-            <set id="03629095854703337" name="field" value="/&lt;h1&gt;&lt;a[^&gt;]*&gt;(.*?)&lt;/" resultrange="0">
-              <set id="03326585409231484" name="title" value="Namn" />
-              <set id="09030311885289848" name="value" value="/(.+)/" />
-              <set id="027113374625332654" name="stitle" value="name" />
-            </set>
-            <set id="003449101047590375" name="field" value="/Adress&lt;/h2&gt;\s*&lt;p&gt;(.*?)&lt;/p&gt;/">
-              <set id="07891475358046591" name="title" value="Adress" />
-              <set id="018193065538071096" name="value" value="/&lt;br/&gt;\s*/" decode="RegexReplace" formatstring=", " />
-              <set id="08064390416257083" name="stitle" value="address" />
-            </set>
-            <set id="022362839337438345" name="#personinformation" value="/(?:Personinformation&lt;/h2&gt;|Bolagsuppgifter&lt;/h2&gt;)(.*?)&lt;/div&gt;/">
-              <set id="046563248592428863" name="field" value="/och äger &lt;strong&gt;(.*?)&lt;/strong&gt;/">
-                <set id="05137076340615749" name="title" value="Fastigheter" />
-                <set id="02340907589532435" name="value" value="/&lt;.*?&gt;|Med fastighet avses radhus, villa eller fritidshus./" decode="RegexReplace" />
-                <set id="0953441395657137" name="stitle" value="properties" />
-              </set>
-              <set id="08184706105384976" name="field" value="/&lt;span class=&quot;text-nowrap&quot;&gt;\((.*?)\)&lt;/span&gt;/" resultrange="0">
-                <set id="05767314408440143" name="title" value="Personnr." />
-                <set id="04427548311650753" name="value" value="/(.+)/" />
-                <set id="05679315901361406" name="stitle" value="ssn" />
-              </set>
-              <set id="09820838349405676" name="field" value="/&lt;/strong&gt; är &lt;strong&gt;(.*?)&lt;/strong&gt;/">
-                <set id="08002596271689981" name="title" value="Civilstånd" />
-                <set id="07270581373013556" name="value" value="/(.+)/" />
-                <set id="08034680534619838" name="stitle" value="marital status" />
-              </set>
-              <set id="05205351943150163" name="field" value="/&lt;th&gt;Org.nummer:&lt;/th&gt;\s*&lt;td&gt;(.*?)&lt;/td&gt;/">
-                <set id="007443037326447666" name="title" value="Org. Nr." />
-                <set id="08837795197032392" name="value" value="/(.+)/" />
-                <set id="06625824526418" name="stitle" value="organization number" />
-              </set>
-            </set>
-            <set id="05565195847302675" name="#fordon" url="http://www.merinfo.se/ajax/vehicles" postrequest="true" postdata="uuid=${uuid}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;X-CSRF-TOKEN:${token}">
-              <set id="01579337960574776" name="field" value="/data&quot;:{(.*)/">
-                <set id="05464055514894426" name="value" value="/&quot;count&quot;:(\d+),&quot;latest_color&quot;:&quot;(.*?)&quot;.*?&quot;latest_model&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="Fordon: {0}. Senaste: {1} {2}" />
-                <set id="00072674991097301245" name="title" value="Fordonsinformation" />
-                <set id="05816763103939593" name="stitle" value="vehicles" />
-              </set>
-            </set>
-            <set id="0393386498792097" name="field" value="/Bolagsuppgifter&lt;/h2&gt;\s*&lt;p&gt;(.*?)&lt;/p&gt;/">
-              <set id="08634006888605654" name="title" value="Bolagsinformation" />
-              <set id="04686001311056316" name="value" value="/&lt;.*?&gt;/" decode="RegexReplace" />
-              <set id="06029386629816145" name="stitle" value="company information" />
-            </set>
-            <set id="046214597346261144" name="field" value="/&lt;p class=&quot;credit&quot;&gt;(.*?)&lt;/p&gt;/">
-              <set id="06804226774256676" name="title" value="Anmärkningar" />
-              <set id="009833162231370807" name="value" value="/&lt;.*?&gt;/" decode="RegexReplace" />
-              <set id="009234034712426364" name="stitle" value="remarks" />
-            </set>
+    <set id="09547932320274413" name="#loginpage" url="http://www.merinfo.se/user/login" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36">
+      <set id="0025815358993665383" name="token" paramoutput="true" value="/&lt;meta name=&quot;_token&quot; content=&quot;([^&quot;]*)/" />
+      <set id="045821737265214324" name="#login" url="http://www.merinfo.se/user/login" postrequest="true" postdata="email=${user}&amp;password=${pass}&amp;_token=${token}&amp;remember=1" requestfields="Header" requestvalue="Referer:http://www.merinfo.se/user/login&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded" encoding="windows-1252" includeheaders="true" />
+    </set>
+    <set id="036984086385928094" name="#search" url="http://www.merinfo.se/search?who=${telnr}" includeheaders="true" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36">
+      <set id="011827483051456511" name="uniqid" paramoutput="true" value="/'uniqid': '([^']+)/" />
+      <set id="02668043633457273" name="#detail" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8" includeheaders="true" decode="RelativeURL" url="/&lt;h2[^&gt;]*&gt;&lt;a href=&quot;([^&quot;]*)&quot;&gt;/">
+        <set id="0945750484475866" name="uuid" value="/uuid: &quot;(.*?)&quot;/" paramoutput="true" />
+        <set id="02554032306652516" name="token" paramoutput="true" value="/_token&quot; content=&quot;(.*?)&quot;/" />
+        <set id="03629095854703337" name="field" value="/&lt;h1&gt;&lt;a[^&gt;]*&gt;(.*?)&lt;/" resultrange="0">
+          <set id="03326585409231484" name="title" value="Namn" />
+          <set id="09030311885289848" name="value" value="/(.+)/" />
+          <set id="027113374625332654" name="stitle" value="name" />
+        </set>
+        <set id="003449101047590375" name="field" value="/Adress&lt;/h2&gt;\s*&lt;p&gt;(.*?)&lt;/p&gt;/">
+          <set id="07891475358046591" name="title" value="Adress" />
+          <set id="018193065538071096" name="value" value="/&lt;br/&gt;\s*/" decode="RegexReplace" formatstring=", " />
+          <set id="08064390416257083" name="stitle" value="address" />
+        </set>
+        <set id="022362839337438345" name="#personinformation" value="/(?:Personinformation&lt;/h2&gt;|Bolagsuppgifter&lt;/h2&gt;)(.*?)&lt;/div&gt;/">
+          <set id="046563248592428863" name="field" value="/och äger &lt;strong&gt;(.*?)&lt;/strong&gt;/">
+            <set id="05137076340615749" name="title" value="Fastigheter" />
+            <set id="02340907589532435" name="value" value="/&lt;.*?&gt;|Med fastighet avses radhus, villa eller fritidshus./" decode="RegexReplace" />
+            <set id="0953441395657137" name="stitle" value="properties" />
+          </set>
+          <set id="08184706105384976" name="field" value="/&lt;span class=&quot;text-nowrap&quot;&gt;\((.*?)\)&lt;/span&gt;/" resultrange="0">
+            <set id="05767314408440143" name="title" value="Personnr." />
+            <set id="04427548311650753" name="value" value="/(.+)/" />
+            <set id="05679315901361406" name="stitle" value="ssn" />
+          </set>
+          <set id="09820838349405676" name="field" value="/&lt;/strong&gt; är &lt;strong&gt;(.*?)&lt;/strong&gt;/">
+            <set id="08002596271689981" name="title" value="Civilstånd" />
+            <set id="07270581373013556" name="value" value="/(.+)/" />
+            <set id="08034680534619838" name="stitle" value="marital status" />
+          </set>
+          <set id="05205351943150163" name="field" value="/&lt;th&gt;Org.nummer:&lt;/th&gt;\s*&lt;td&gt;(.*?)&lt;/td&gt;/">
+            <set id="007443037326447666" name="title" value="Org. Nr." />
+            <set id="08837795197032392" name="value" value="/(.+)/" />
+            <set id="06625824526418" name="stitle" value="organization number" />
           </set>
         </set>
+        <set id="05565195847302675" name="#fordon" url="http://www.merinfo.se/ajax/vehicles" postrequest="true" postdata="uuid=${uuid}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36&#xA;Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;X-CSRF-TOKEN:${token}">
+          <set id="01579337960574776" name="field" value="/data&quot;:{(.*)/">
+            <set id="05464055514894426" name="#str" value="/&quot;count&quot;:(\d+),&quot;latest_color&quot;:&quot;(.*?)&quot;.*?&quot;latest_model&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="Fordon: {0}. Senaste: {1} {2}">
+              <set id="05833761273792399" name="value" value="/(.+)/" decode="JSON" />
+            </set>
+            <set id="00072674991097301245" name="title" value="Fordonsinformation" />
+            <set id="05816763103939593" name="stitle" value="vehicles" />
+          </set>
+        </set>
+        <set id="0393386498792097" name="field" value="/Bolagsuppgifter&lt;/h2&gt;\s*&lt;p&gt;(.*?)&lt;/p&gt;/">
+          <set id="08634006888605654" name="title" value="Bolagsinformation" />
+          <set id="04686001311056316" name="value" value="/&lt;.*?&gt;/" decode="RegexReplace" />
+          <set id="06029386629816145" name="stitle" value="company information" />
+        </set>
+        <set id="046214597346261144" name="field" value="/&lt;p class=&quot;credit&quot;&gt;(.*?)&lt;/p&gt;/">
+          <set id="06804226774256676" name="title" value="Anmärkningar" />
+          <set id="009833162231370807" name="value" value="/&lt;.*?&gt;/" decode="RegexReplace" />
+          <set id="009234034712426364" name="stitle" value="remarks" />
+        </set>
+      </set>
+    </set>
   </set>
 </robot>

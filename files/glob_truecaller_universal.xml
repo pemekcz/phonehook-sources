@@ -65,7 +65,7 @@ Rev.3: Updated login options
       </set>
       <set id="008990838495083153" name="field" value="/&lt;div class=&quot;detailView__nameText&quot;&gt;\s*(.*?)\s*&lt;/">
         <set id="0022186205256730318" name="title" value="Name" />
-        <set id="07682456753682345" name="value" value="/(.+)/" />
+        <set id="07682456753682345" name="value" value="/(.+)/" decode="XML" />
         <set id="09948369935154915" name="stitle" value="name" />
       </set>
       <set id="05800170917063951" name="#address1" value="/&lt;p class=&quot;result__label&quot;&gt;Address&lt;/p&gt;\s*&lt;p&gt;\s*(.*?)\s*&lt;/p&gt;/">
@@ -79,7 +79,7 @@ Rev.3: Updated login options
         <set id="0677849312312901" name="field" value="/&lt;br&gt;/" decode="RegexReplace" formatstring="&#xA;">
           <set id="07476860035676509" name="title" value="Address" />
           <set id="08688637623563409" name="value" value="/(.+)/" />
-          <set id="09545120007824153" name="stitle" value="address" />
+          <set id="09545120007824153" name="stitle" value="address" decode="XML" />
         </set>
       </set>
       <set id="026968154683709145" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Email&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;&lt;a href=&quot;mailto:([^&quot;]+)&quot;&gt;/">

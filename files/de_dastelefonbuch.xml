@@ -2,10 +2,10 @@
   <meta>
     <name>Das Telefonbuch</name>
 <country>DE</country>
-<revision>5</revision>
+<revision>6</revision>
 <minversion>6</minversion>
 <description>Phone number directory.
-Rev. 4: Added search</description>
+Rev. 6: Fix search</description>
 <icon>http://bilder.dastelefonbuch.de/das_telefonbuch_deutschland.gif</icon>
 <link>http://www.dastelefonbuch.de</link>
 </meta>
@@ -22,8 +22,10 @@ Rev. 4: Added search</description>
       </set>
       <set id="08467272333800793" name="field" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
         <set id="05736345457844436" name="title" value="Anschrift" />
-        <set id="045151069411076605" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace"><set id="018917823559055646" name="#whitespace" value="/\s+/" decode="RegexReplace" formatstring=" "><set id="06674937077332288" name="value" value="/\s*(.+)\s*/" decode="XML" /></set>
-          
+        <set id="045151069411076605" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+          <set id="018917823559055646" name="#whitespace" value="/\s+/" decode="RegexReplace" formatstring=" ">
+            <set id="06674937077332288" name="value" value="/\s*(.+)\s*/" decode="XML" />
+          </set>
         </set>
         <set id="011961155105382204" name="stitle" value="address" />
       </set>
@@ -32,33 +34,31 @@ Rev. 4: Added search</description>
   <set id="09931105454452336" name="search" tags="person_search,business_search">
     <set id="04605871762614697" name="#url" value="${url}">
       <set id="04561092294752598" name="#url" value="/^()$/">
-        <set id="010524747427552938" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" formatstring="windows-1252" />
-        <set id="06719101544003934" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" formatstring="windows-1252" />
         <set id="05947374762035906" name="#tagWanted" value="${tagWanted}">
-          <set id="09838520623743534" name="tagWantedF" paramoutput="true" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="ao1=1&amp;ao2=0&#xA;ao1=0&amp;ao2=2,3" />
+          <set id="09838520623743534" name="tagWantedF" paramoutput="true" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="/Personen&#xA;/Firmen" />
         </set>
-        <set id="02931382926180959" name="url" paramoutput="true" value="http://www1.dastelefonbuch.de/?kw=${searchNameF}&amp;ort=${searchAreaF}&amp;pu=1&amp;s=a10000&amp;cmd=search&amp;ort_ok=0&amp;vert_ok=0&amp;ciid=&amp;rgid=&amp;kgs=&amp;district=&amp;ciquarter=&amp;pcZVO=&amp;cx=&amp;cy=&amp;lat=&amp;lon=&amp;radius=&amp;sp=0&amp;aktion=23&amp;ckrid=&amp;${tagWantedF}" />
+        
+        <set id="06719101544003934" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" formatstring="windows-1252" />
+        <set id="019666297744406402" name="#searchArea" value="${searchArea}" decode="URLEncode" formatstring="windows-1252">
+          <set id="010524747427552938" name="searchAreaF" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="/{0}" />
+        </set><set id="02931382926180959" name="url" paramoutput="true" value="http://www.dastelefonbuch.de${tagWantedF}/${searchNameF}${searchAreaF}" />
       </set>
     </set>
-    <set id="07163601615466177" name="#search" url="${url}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36" encoding="windows-1252">
-      <set id="09991873621474952" name="#clean" value="/&lt;span class=&quot;highlight&quot;&gt;(.*?)&lt;/span&gt;&#xA;&lt;span class=&quot;hide&quot;&gt;(.*?)&lt;/span&gt;/" decode="RegexMultiReplace" formatstring="$1&#xA;">
-        <set id="04854335931595415" name="result" value="/(&lt;div id=&quot;entry_[^&gt;]*&gt;.*?)(?=&lt;div id=&quot;entry|&lt;script)/">
-          <set id="06644532394129783" name="name" value="/&lt;a[^&gt;]*class=&quot;name&quot;[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML" />
-          <set id="032652346161194146" name="#address" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
-            <set id="08239328695926815" name="#address" value="/&lt;.*?&gt;/" decode="RegexReplace">
-              <set id="05693081121426076" name="address" value="/(.+)/" decode="XML" />
-            </set>
+    <set id="07163601615466177" name="#search" url="${url}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#xA;Referer:${url}" encoding="windows-1252"><set id="04854335931595415" name="result" value="/(&lt;div[^&gt;]*id=&quot;entry_[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/">
+          <set id="06644532394129783" name="name" value="/&lt;div[^&gt;]*class=&quot;[^&quot;]*name[^&gt;]*title=&quot;(.*?)&quot;/" decode="XML" />
+          <set id="032652346161194146" name="#address" value="/&lt;a[^&gt;]*class=&quot;[^&quot;]*addr[^&gt;]*title=&quot;(.*?)\s*&quot;/"><set id="05693081121426076" name="address" value="/(.+)/" decode="XML" />
+            
           </set>
-          <set id="08034036660101265" name="#number" value="/&lt;span class=&quot;ico fon&quot;&gt;.*?&lt;span[^&gt;]*&gt;(.*?)&lt;br/">
-            <set id="07363070822320879" name="number" value="/\D/" decode="RegexReplace" />
+          <set id="08034036660101265" name="#number" value="/(&lt;span[^&gt;]*class=&quot;nr[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?span[^&gt;]*&gt;)|&lt;span[^&gt;]*&gt;(?&gt;(?2))*&lt;/span&gt;)*&lt;/span&gt;)/" decode="FormatString" formatstring="{0}"><set id="08267075750499451" name="#strip_hide" value="/&lt;span[^&gt;]*class=&quot;hide[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?span[^&gt;]*&gt;)|&lt;span[^&gt;]*&gt;(?&gt;(?1))*&lt;/span&gt;)*&lt;/span&gt;/" decode="RegexReplace"><set id="07363070822320879" name="number" value="/\D/" decode="RegexReplace" /></set>
+            
           </set>
-          <set id="007071553124114871" name="type" value="/(itemtype=&quot;http://data-vocabulary.org/Organization&quot;)/" decode="FormatString" formatstring="business" />
-          <set id="011184336268343031" name="type" value="/(itemtype=&quot;http://data-vocabulary.org/Person&quot;)/" decode="FormatString" formatstring="person" />
-          <set id="06210415468085557" name="url" value="/&lt;a[^&gt;]*href=&quot;([^&gt;]*?)&quot;[^&gt;]*class=&quot;name&quot;[^&gt;]*/" decode="XML" />
+          <set id="007071553124114871" name="#type" value="/class=&quot;entry\s*(privat)?/"><set id="011184336268343031" name="type" value="/privat/" decode="RegexReplace" formatstring="person" /><set id="0373802719299279" name="type" value="/^()$/" decode="FormatString" formatstring="business" /></set>
+          
+          <set id="06210415468085557" name="url" value="/&lt;a[^&gt;]*class=&quot;[^&quot;]*name&quot;[^&gt;]*href=&quot;([^&gt;]*?)&quot;/" decode="XML" />
         </set>
-      </set>
-      <set id="02873934304807335" name="next" value="/&lt;a class=&quot;ico next&quot;[^&gt;]*href=&quot;(.*?)&quot;/" decode="XML">
-        <set id="07551454836502671" name="url" value="/(.+)/" />
+      
+      <set id="02873934304807335" name="next" value="/&lt;a[^&gt;]*href='([^']*?)'[^&gt;]*&gt;N&amp;auml;chste/" decode="XML">
+        <set id="07551454836502671" name="url" value="/(.+)/" decode="XML" />
       </set>
     </set>
   </set>
