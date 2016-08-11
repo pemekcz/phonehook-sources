@@ -1,0 +1,59 @@
+<robot>
+  <meta>
+    <name>telefoonboek.nl</name>
+    <country>NL</country>
+    <revision>1</revision>
+    <description>Search and reverse lookup</description>
+    <icon>https://www.telefoonboek.nl/images/telefoonboek-fb-icon.jpg</icon>
+    <minversion>5</minversion>
+    <link>https://www.telefoonboek.nl/</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="05979829235650216" name="#query" url="https://www.telefoonboek.nl/omgekeerd-zoeken/${telnr}/" postrequest="true">
+      <set id="09970825823142093" name="#review" value="/(&lt;div class=&quot;review-post&quot;&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" decode="FormatString" formatstring="{0}">
+        <set id="003810812357864268" name="field" value="/&lt;div class=&quot;review-author-info&quot;&gt;\s*(.*?)\s*&lt;.*?&lt;div class=&quot;review-content&quot;&gt;(.*?)&lt;/div&gt;/" decode="FormatString" formatstring="{0}&#xA;{1}">
+          <set id="05506412099186757" name="stitle" value="comment" />
+          <set id="02991909819984562" name="title" value="Comment" />
+          <set id="01825972153693025" name="value" value="/&lt;[^&gt;]*&gt;&#xA;(?&lt;=\n)\s*/" decode="RegexMultiReplace" formatstring="&#xA;" />
+        </set>
+      </set>
+    </set>
+  </set>
+  <set id="06553801068113254" name="search" tags="person_search,business_search">
+    <set id="07633592549430761" name="time" paramoutput="true" value="." formatstring="function f(a) {&#xA;return parseInt(new Date().valueOf());&#xA;}" decode="Script" />
+    <set id="005730676574250526" name="#searchAreaF" value="${searchArea}" decode="LowerCase">
+      <set id="05498332529612389" name="#searchAreaF" value="/\s+&#xA;/|^\s*|\s*$/" decode="RegexMultiReplace" formatstring="-&#xA;">
+        <set id="022981089555579737" name="#urlEncode" value="/(.+)/" decode="URLEncode">
+          <set id="09720870617158375" name="searchAreaF" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="{0}/" />
+        </set>
+      </set>
+    </set>
+    <set id="08058387905632172" name="#tagWanted" value="${tagWanted}">
+      <set id="030244243324240916" name="tagWantedF" paramoutput="true" value="/person_search&#xA;business_search/" decode="RegexMultiReplace" formatstring="personen&#xA;zoeken" />
+    </set>
+    <set id="05726013206820075" name="#searchNameF" value="${searchName}" decode="LowerCase">
+      <set id="012814311255819377" name="#searchNameF" value="/\s+&#xA;/|^\s*|\s*$/" decode="RegexMultiReplace" formatstring="-&#xA;">
+        <set id="025028292503328364" name="searchNameF" paramoutput="true" value="/(.+)/" decode="URLEncode" />
+      </set>
+    </set>
+    <set id="08446557114610604" name="#url is empty?" value="${url}">
+      <set id="0542910836071719" name="url" paramoutput="true" value="/^()$/" decode="FormatString" formatstring="https://www.telefoonboek.nl/${tagWantedF}/${searchNameF}/${searchAreaF}?_=${time}" />
+    </set>
+    <set id="0590900753149513" name="#load" url="${url}">
+      <set id="07900567063606383" name="result" value="/&lt;ul class=&quot;info-list(.*?)&lt;/ul&gt;/">
+        <set id="05337220466718837" name="name" value="/&lt;meta itemprop=&quot;name&quot; content=&quot;(.*?)&quot;/" decode="XML" />
+        <set id="08618402915797254" name="#address" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
+          <set id="015214524733904566" name="address" value="/^\s*&lt;div class=&quot;row&quot;&gt;&#xA;&lt;div class=&quot;row&quot;&gt;&#xA;&lt;[^&gt;]*&gt;&#xA;\s+/" decode="RegexMultiReplace" formatstring="&#xA;,&#xA;&#xA; " />
+        </set>
+        <set id="040731104499785853" name="number" value="/&lt;div class=&quot;info tel&quot;&gt;\s*&lt;img[^&gt;]*alt=&quot;(.*?)&quot;/" />
+        <set id="07712371905295201" name="#type" value="/^\s*(person-list)?/">
+          <set id="0014844185366998275" name="type" value="/person-list&#xA;^$/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
+        </set>
+        <set id="07832078118811827" name="url" value="/&lt;a class=&quot;title-link&quot;[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
+      </set>
+      <set id="004906768380823778" name="next" value="/&lt;li class=&quot;next&quot;&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="XML">
+        <set id="0002612463231434603" name="url" value="/(.+)/" decode="RelativeURL" />
+      </set>
+    </set>
+  </set>
+</robot>
