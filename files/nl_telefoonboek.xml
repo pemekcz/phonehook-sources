@@ -53,6 +53,7 @@
       </set>
       <set id="004906768380823778" name="next" value="/&lt;li class=&quot;next&quot;&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="XML">
         <set id="0002612463231434603" name="url" value="/(.+)/" decode="RelativeURL" />
+        <set id="07232399561468361" name="tagWanted" value="${tagWanted}" />
       </set>
     </set>
   </set>
