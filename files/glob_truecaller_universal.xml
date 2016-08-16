@@ -2,7 +2,7 @@
   <meta>
     <name>TrueCaller</name>
     <country>_ALL</country>
-    <revision>3</revision>
+    <revision>4</revision>
     <minversion>9</minversion>
     <description>Truecaller number lookup. New version handles login differently.
 
@@ -58,7 +58,7 @@ Rev.3: Updated login options
       </set>
     </set>
     <set id="010637810965999961" name="#pageOutput" value="${pageOutput}">
-      <set id="06192706888541579" name="field" value="/&lt;p class=&quot;result__name&quot;&gt;(.*?)&lt;/p&gt;/" decode="JSON">
+      <set id="06192706888541579" name="field" value="/(?:&lt;p class=&quot;result__name&quot;&gt;|&lt;div class=&quot;resTitle&quot;&gt;)\s*(.*?)\s*&lt;/" decode="JSON">
         <set id="08785065968986601" name="title" value="Name" />
         <set id="04111223246436566" name="value" value="/(.+)/" />
         <set id="0030946729239076376" name="stitle" value="name" />
@@ -68,7 +68,7 @@ Rev.3: Updated login options
         <set id="07682456753682345" name="value" value="/(.+)/" decode="XML" />
         <set id="09948369935154915" name="stitle" value="name" />
       </set>
-      <set id="05800170917063951" name="#address1" value="/&lt;p class=&quot;result__label&quot;&gt;Address&lt;/p&gt;\s*&lt;p&gt;\s*(.*?)\s*&lt;/p&gt;/">
+      <set id="05800170917063951" name="#address1" value="/&lt;p class=&quot;result__label&quot;&gt;Address&lt;/p&gt;\s*&lt;p&gt;\s*(.*?)\s*&lt;/p&gt;|&lt;div class=&quot;resLabel&quot;&gt;Address&lt;/div&gt;\s*&lt;div&gt;\s*(?:&lt;a[^&gt;]*&gt;)?\s*(.*?)\s*&lt;/">
         <set id="023326262226328254" name="field" value="/&lt;br&gt;/" decode="RegexReplace" formatstring="&#xA;">
           <set id="06911845947615802" name="title" value="Address" />
           <set id="004105803859420121" name="value" value="/(.+)/" decode="JSON" />
@@ -82,12 +82,12 @@ Rev.3: Updated login options
           <set id="09545120007824153" name="stitle" value="address" decode="XML" />
         </set>
       </set>
-      <set id="026968154683709145" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Email&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;&lt;a href=&quot;mailto:([^&quot;]+)&quot;&gt;/">
+      <set id="026968154683709145" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Email&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;&lt;a href=&quot;mailto:([^&quot;]+)&quot;&gt;|&quot;resLabel&quot;&gt;Email.*?mailto:([^&quot;]*)/">
         <set id="03358407118357718" name="title" value="Email" />
         <set id="010150265414267778" name="value" value="/(.+)/" />
         <set id="08089230263140053" name="stitle" value="email" />
       </set>
-      <set id="0606800303561613" name="block" value="/(&lt;span class=&quot;result__spam-report&quot;&gt;|&quot;detailView__spam&quot;)/" decode="FormatString" formatstring="true" />
+      <set id="0606800303561613" name="block" value="/(&lt;span class=&quot;result__spam-report&quot;&gt;|&quot;detailView__spam&quot;|&quot;resSpam&quot;)/" decode="FormatString" formatstring="true" />
       <set id="039782828697934747" name="field" value="/&lt;div class=&quot;detailView__label&quot;&gt;Website&lt;/div&gt;\s*&lt;div class=&quot;detailView__text&quot;&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
         <set id="08685594699345529" name="title" value="Website" />
         <set id="09853870598599315" name="value" value="/(.+)/" />
