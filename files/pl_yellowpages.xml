@@ -1,0 +1,27 @@
+<robot>
+  <meta>
+    <name>YellowPages.pl</name>
+    <country>PL</country>
+    <revision>1</revision>
+    <minversion>4</minversion>
+    <description>Lookup for Polish numbers</description>
+    <link>http://www.yellowpages.pl/</link>
+    <icon>http://www.yellowpages.pl/resources_90/yellowpages_katalog_firm.png</icon>
+  </meta>
+  <set id="root" name="lookup">
+    <set id="06657647445628228" name="#check" url="http://www.yellowpages.pl/szukaj/index.php?q=${telnr}&amp;c=">
+      <set id="03626394126309318" name="#got-result" value="/(&lt;div[^&gt;]*itemscope[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" decode="FormatString" formatstring="{0}">
+        <set id="09915412099718122" name="field" value="/&lt;h3[^&gt;]*&gt;\s*&lt;a\b[^&gt;]*&gt;(.*?)&lt;/" resultrange="0">
+          <set id="047584152280955094" name="stitle" value="name" />
+          <set id="0061671308542672554" name="title" value="Name" />
+          <set id="02436606167085973" name="value" value="/(.+)/" decode="XML" />
+        </set>
+        <set id="07715135595590399" name="field" value="/&lt;p[^&gt;]*itemprop='address'[^&gt;]*&gt;(.*?)&lt;/?p\b/">
+          <set id="08727615869196201" name="value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+          <set id="040263333102778764" name="stitle" value="address" />
+          <set id="029953808374251056" name="title" value="Address" />
+        </set>
+      </set>
+    </set>
+  </set>
+</robot>

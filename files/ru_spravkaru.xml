@@ -9,7 +9,7 @@
     <icon>https://pbs.twimg.com/profile_images/1688228027/untitled_bigger.JPG</icon>
   </meta>
   <set id="root" name="lookup" tags="lookup">
-    <set id="005935761517212823" name="#load_start_page" url="http://english.spravkaru.net/">
+    <set id="005935761517212823" name="#load_start_page" url="http://english.spravkaru.net/" httpcache="30">
       <set id="023067535597218702" name="#address" value="/[\s\S]*?&lt;a class='address'[^&gt;]*href='(.*?)'[^&gt;]*&gt;([^&lt;]*\+[^&lt;]*)&lt;/a&gt;/" decode="RegexReplace" formatstring="$1 $2&#xA;">
         <set id="009319440234977305" name="#trim" value="/([\s\S]*\([\d+ ]{5,8}\))/">
           <set id="06810324797366571" name="#compact" value="/(?&lt;=\d) (?=\d)/" decode="RegexReplace">
