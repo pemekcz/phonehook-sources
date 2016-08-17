@@ -71,7 +71,7 @@ Rev.3: Updated login options
       <set id="05800170917063951" name="#address1" value="/&lt;p class=&quot;result__label&quot;&gt;Address&lt;/p&gt;\s*&lt;p&gt;\s*(.*?)\s*&lt;/p&gt;|&lt;div class=&quot;resLabel&quot;&gt;Address&lt;/div&gt;\s*&lt;div&gt;\s*(?:&lt;a[^&gt;]*&gt;)?\s*(.*?)\s*&lt;/">
         <set id="023326262226328254" name="field" value="/&lt;br&gt;/" decode="RegexReplace" formatstring="&#xA;">
           <set id="06911845947615802" name="title" value="Address" />
-          <set id="004105803859420121" name="value" value="/(.+)/" decode="JSON" />
+          <set id="004105803859420121" name="value" value="/(.+)/" decode="XML" />
           <set id="07442013116087765" name="stitle" value="address" />
         </set>
       </set>
