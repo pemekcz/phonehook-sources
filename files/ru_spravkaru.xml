@@ -5,7 +5,7 @@
     <revision>1</revision>
     <minversion>4</minversion>
     <description>Lookup for Russian numbers</description>
-    <link>spravkaru.net/</link>
+    <link>http://spravkaru.net/</link>
     <icon>https://pbs.twimg.com/profile_images/1688228027/untitled_bigger.JPG</icon>
   </meta>
   <set id="root" name="lookup" tags="lookup">
@@ -36,7 +36,7 @@
                   <set id="04901079232841692" name="value" value="/(.+)/" decode="XML" />
                 </set>
                 <set id="01011525658728103" name="field" value="/&lt;b&gt;Region and city:&lt;/b&gt;.*?&lt;td colspan=&quot;2&quot;&gt;(.*?)&lt;/td&gt;.*?&lt;b&gt;Home address:&lt;/b&gt;.*?&lt;td colspan=&quot;2&quot;&gt;(.*?)&lt;/td&gt;/" decode="FormatString" formatstring="{1}{0}">
-                  <set id="04661709712531399" name="value" value="/&lt;[^&gt;]*&gt;&#xA;^\s+|\s(?=\s)|\n(?=\n)&#xA;\t/" decode="RegexMultiReplace" formatstring="&#xA;&#xA;, " />
+                  <set id="04661709712531399" name="value" value="/&lt;[^&gt;]*&gt;&#xA;^\s+|\s(?=\s)|\n(?=\n)&#xA;\s*\t\s*/" decode="RegexMultiReplace" formatstring="&#xA;&#xA;, " />
                   <set id="009239732049949811" name="title" value="Address" />
                   <set id="07366489447936357" name="stitle" value="address" />
                 </set>
