@@ -6,7 +6,7 @@
     <minversion>4</minversion>
     <description>Lookup for Polish numbers</description>
     <link>http://www.yellowpages.pl/</link>
-    <icon>http://www.yellowpages.pl/resources_90/yellowpages_katalog_firm.png</icon>
+    <icon>https://omnight.github.io/phonehook-sources/logos/yp.pl.png</icon>
   </meta>
   <set id="root" name="lookup">
     <set id="06657647445628228" name="#check" url="http://www.yellowpages.pl/szukaj/index.php?q=${telnr}&amp;c=">
