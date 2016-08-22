@@ -2,9 +2,9 @@
   <meta>
     <name>Fonecta.fi</name>
     <country>FI</country>
-    <revision>9</revision>
+    <revision>10</revision>
     <description>Finnish phone number directory (Login is required!)
-Rev. 9: Number fix for search
+Rev. 10: Fix login issue
 </description>
     <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
     <minversion>5</minversion>
@@ -14,7 +14,10 @@ Rev. 9: Number fix for search
   </meta>
   <set id="root" name="results_lookup" tags="lookup">
     <set id="009329816373065114" name="telnrF" value="${telnr}" decode="URLEncode" paramoutput="true" />
-    <set id="08309580106288195" name="#login" url="https://tili.fonecta.fi/login" postrequest="true" postdata="{&quot;username&quot;:&quot;${user}&quot;,&quot;password&quot;:&quot;${password}&quot;,&quot;redirUrlRequired&quot;:true}" requestfields="Header" requestvalue="Accept:application/json, text/plain, */*&#xA;Content-Type:application/json;charset=UTF-8&#xA;Referer:https://tili.fonecta.fi/login?appId=fonecta.fi&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
+    <set id="05768553924104687" name="#password" value="${password}">
+      <set id="08568724196855975" name="password" paramoutput="true" value="/&quot;/" decode="RegexReplace" formatstring="\&quot;" />
+    </set>
+    <set id="08309580106288195" name="#login" url="https://tili.fonecta.fi/login" postrequest="true" postdata="{&quot;username&quot;:&quot;${user}&quot;,&quot;forwardParams&quot;:&quot;&quot;,&quot;rememberMe&quot;:true,&quot;password&quot;:&quot;${password}&quot;,&quot;redirUrlRequired&quot;:true,&quot;appId&quot;:&quot;fonecta.fi&quot;}" requestfields="Header" requestvalue="Accept:application/json, text/plain, */*&#xA;Content-Type:application/json;charset=UTF-8&#xA;Referer:https://tili.fonecta.fi/login?appId=fonecta.fi&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
       <set id="07602093485184014" name="field" value="/(&quot;loginStatus&quot;:2),/">
         <set id="08150579158682376" name="title" value="Virhe" />
         <set id="05285124641377479" name="value" value="Väärä käyttäjätunnus tai salasana" />
@@ -68,10 +71,13 @@ Rev. 9: Number fix for search
   <set id="03269159863702953" name="name_search" tags="person_search,business_search">
     <set id="01708149400074035" name="searchNameF" value="${searchName}" decode="URLEncode" paramoutput="true" />
     <set id="0738077926915139" name="searchAreaF" value="${searchArea}" decode="URLEncode" paramoutput="true" />
+    <set id="039126900714256263" name="#password" value="${password}">
+      <set id="05316528919481167" name="password" paramoutput="true" value="/&quot;/" decode="RegexReplace" formatstring="\&quot;" />
+    </set>
     <set id="04062965349294245" name="#first_search" url="https://www.fonecta.fi/haku?what=${searchNameF}+${searchAreaF}&amp;sort=RELEVANCE&amp;latitude=&amp;longitude=&amp;autosuggested=false&amp;page=${page}&amp;pages=${page}&amp;onlyTail=true">
       <set id="05515975675079972" name="pageResult" value="/(.+)/" paramoutput="true" />
       <set id="03672588146291673" name="#login_required" value="/(&lt;a id=&quot;login-button&quot;)/">
-        <set id="07275930035393685" name="#do_login" url="https://tili.fonecta.fi/login" postrequest="true" postdata="{&quot;username&quot;:&quot;${user}&quot;,&quot;password&quot;:&quot;${password}&quot;,&quot;redirUrlRequired&quot;:true}" requestfields="Header" requestvalue="Accept:application/json, text/plain, */*&#xA;Content-Type:application/json;charset=UTF-8&#xA;Referer:https://tili.fonecta.fi/login?appId=fonecta.fi&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
+        <set id="07275930035393685" name="#do_login" url="https://tili.fonecta.fi/login" postrequest="true" postdata="{&quot;username&quot;:&quot;${user}&quot;,&quot;password&quot;:&quot;${password}&quot;,&quot;rememberMe&quot;:true,&quot;redirUrlRequired&quot;:true,&quot;appId&quot;:&quot;fonecta.fi&quot;,&quot;forwardParams&quot;:&quot;&quot;}" requestfields="Header" requestvalue="Accept:application/json, text/plain, */*&#xA;Content-Type:application/json;charset=UTF-8&#xA;Referer:https://www.fonecta.fi/&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
           <set id="07831737059168518" name="#eulaLogin" url="/&quot;loginStatus&quot;:10,.*redirectUrl&quot;:&quot;(.*?)acceptEula&quot;/" decode="JSON">
             <set id="07402745885774493" name="result">
               <set id="06181302056647837" name="name" value="Results may not be displayed" />
