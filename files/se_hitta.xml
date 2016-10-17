@@ -37,19 +37,21 @@ Rev 5: Site update</description>
       <set id="018362797005102038" name="searchType" value="/(business_search)/" decode="FormatString" formatstring="ftg" paramoutput="true" />
     </set>
     <set id="04574098938610405" name="#do_search" url="http://www.hitta.se/s%C3%B6k?vad=${searchCombo}&amp;typ=${searchType}&amp;sida=${page}" requestfields="Header" requestvalue="Referer:http://www.hitta.se/&#xA;User-Agent:Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" includeheaders="true">
-      <set id="09009224770125002" name="result" value="/&lt;li [^&gt;]*data-clickable=&quot;h2 a&quot;[^&gt;]*&gt;(.*?)&lt;/li&gt;/">
-        <set id="036355891381390393" name="name" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;\s*(?:&lt;span[^&gt;]*&gt;)?(.*?)\s*&lt;/" decode="XML" />
-        <set id="04917184840887785" name="number" value="/href=&quot;tel:[^&gt;]*&gt;(.*?)&lt;/a&gt;/" />
-        <set id="012114684283733368" name="#address" value="/&lt;div[^&gt;]*itemprop=&quot;address&quot;[^&gt;]*&gt;(.*?)&lt;/div&gt;\s*&lt;/div&gt;/">
-          <set id="02456887480802834" name="#address" value="/&lt;.*?&gt;/" decode="RegexReplace">
-            <set id="06755136698484421" name="#address" value="/\s+/" decode="RegexReplace" formatstring=" ">
-              <set id="045144598837941885" name="address" value="/(.+)/" decode="XML" />
+      <set id="09445427818646301" name="#result-ul" value="/&lt;ul class=&quot;result-list-small[^&gt;]*&gt;(.*?)&lt;/ul&gt;\s*&lt;div class=&quot;result-list__pagination/" resultrange="0">
+        <set id="09009224770125002" name="result" value="/&lt;li [^&gt;]*class=&quot;[^&quot;]*result-row.*?&lt;a [^&gt;]*&gt;(.*?)&lt;/li&gt;/">
+          <set id="036355891381390393" name="name" value="/&lt;h2[^&gt;]*&gt;\s*&lt;span[^&gt;]*&gt;(.*?)&lt;/span&gt;/" decode="XML" />
+          <set id="04917184840887785" name="number" value="/&lt;h2[^&gt;]*&gt;.*&lt;span[^&gt;]*&gt;(.+?)\s*&lt;/span&gt;\s*&lt;/h2&gt;/" />
+          <set id="012114684283733368" name="#address" value="/&lt;p class=&quot;result-row__address&quot;[^&gt;]*&gt;(.*?)&lt;/p&gt;/">
+            <set id="02456887480802834" name="#address" value="/&lt;.*?&gt;/" decode="RegexReplace">
+              <set id="06755136698484421" name="#address" value="/\b\s*\n\s*\b/" formatstring=", " decode="RegexReplace">
+                <set id="045144598837941885" name="address" value="/(.+)/" decode="XML" />
+              </set>
             </set>
           </set>
-        </set>
-        <set id="0403316100127995" name="url" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.hitta.se{0}" />
-        <set id="04553735472727567" name="#type" input="04574098938610405" value="/&lt;div id=&quot;primary-content&quot;[^&gt;]*&gt;\s*&lt;section id=&quot;(.*?)&quot;/">
-          <set id="03975307769142091" name="type" value="/(companies)&#xA;(people)/" decode="RegexMultiReplace" formatstring="business&#xA;person" />
+          <set id="0403316100127995" name="url" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.hitta.se{0}" />
+          <set id="04553735472727567" name="#type" input="04574098938610405" value="/&lt;div id=&quot;primary-content&quot;[^&gt;]*&gt;\s*&lt;section id=&quot;(.*?)&quot;/">
+            <set id="03975307769142091" name="type" value="/(companies)&#xA;(people)/" decode="RegexMultiReplace" formatstring="business&#xA;person" />
+          </set>
         </set>
       </set>
       <set id="08406791421584785" name="#single result" value="/\nLocation: (.*?)\n/">
@@ -82,7 +84,7 @@ Rev 5: Site update</description>
           </set>
         </set>
       </set>
-      <set id="020556177478283644" name="next" value="/sida=(\d+)&quot; class=&quot;next button&quot;/">
+      <set id="020556177478283644" name="next" value="/sida=(\d+)&quot; data-track=&quot;next/">
         <set id="02897373354062438" name="page" value="/(.+)/" />
         <set id="05815185559913516" name="searchArea" value="${searchArea}" />
         <set id="09108888490591198" name="searchName" value="${searchName}" />
