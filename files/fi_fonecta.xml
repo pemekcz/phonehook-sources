@@ -2,9 +2,9 @@
   <meta>
     <name>Fonecta.fi</name>
     <country>FI</country>
-    <revision>10</revision>
+    <revision>11</revision>
     <description>Finnish phone number directory (Login is required!)
-Rev. 10: Fix login issue
+Rev. 11: Minor site changes
 </description>
     <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
     <minversion>5</minversion>
@@ -39,8 +39,10 @@ Rev. 10: Fix login issue
       <set id="006530567398294806" name="#login-redir" decode="JSON" url="/&quot;loginStatus&quot;:1,.*redirectUrl&quot;:&quot;(.*?)&quot;/">
         <set id="022562350519001484" name="#search" url="https://www.fonecta.fi/haku?what=${telnrF}&amp;sort=RELEVANCE&amp;latitude=&amp;longitude=&amp;autosuggested=false" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded&#xA;Referer:https://www.fonecta.fi/&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
           <set id="031574965501204133" name="pageResult" paramoutput="true" value="/(.+)/" />
-          <set id="02979848701506853" name="#result1" decode="FormatString" url="/hakutuloksia sanalla.*?&lt;h5 class=&quot;result-title&quot;&gt;.*?&lt;a href=&quot;(.*?)&quot;.*?&lt;/h5&gt;/" resultrange="0" formatstring="https://www.fonecta.fi{0}">
-            <set id="06840083072893322" name="pageResult" paramoutput="true" value="/(.+)/" />
+          <set id="09749294832799646" name="#multiResult" value="${pageResult}">
+            <set id="0055880663214383786" name="#first" value="/&lt;div class=&quot;search-result.*?&lt;a href=&quot;(/profii[^&quot;]*)/" resultrange="0">
+              <set id="0003811704859404186" name="pageResult" paramoutput="true" url="/(.+)/" decode="RelativeURL" />
+            </set>
           </set>
           <set id="07975250973831862" name="#result" value="${pageResult}">
             <set id="0012743503553792834" name="field" value="/&lt;h[12] class=&quot;fo-h2[^&gt;]*&gt;(.*?)&lt;/h/" resultrange="0">
@@ -94,8 +96,8 @@ Rev. 10: Fix login issue
       </set>
     </set>
     <set id="07099660825915635" name="#pageresult" value="${pageResult}">
-      <set id="07496948905754834" name="#result" value="/&lt;div class=&quot;row contact[^&gt;]*&gt;(.*?)(?=&lt;div class=&quot;row contact|&lt;div class=&quot;container)/">
-        <set id="07226989192422479" name="result" value="/(.*&lt;span class=&quot;icon.*)/">
+      <set id="07496948905754834" name="#result" value="/&lt;div class=&quot;search-result [^&gt;]*&gt;(.*?)(?=&lt;div class=&quot;search-result |&lt;div class=&quot;container)/">
+        <set id="07226989192422479" name="result" value="/(.*class=&quot;profile.*)/">
           <set id="05055977350566536" name="name" value="/&lt;a href=&quot;/profiili[^&gt;]*&gt;\s*(.*?)\s*(?:,|&lt;/a&gt;)/" decode="XML" />
           <set id="0757854979718104" name="address" value="/&lt;i class=&quot;fa fa-li fa-map-marker c-grey&quot;&gt;&lt;/i&gt;\s*&lt;a class=&quot;non-primary&quot; href=&quot;[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/" decode="XML" />
           <set id="004869626765139401" name="number" value="/href=&quot;tel:([ \d]+)/" resultrange="0" />
