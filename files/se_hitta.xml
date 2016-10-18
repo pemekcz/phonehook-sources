@@ -2,13 +2,9 @@
   <meta>
     <name>Hitta.se</name>
     <country>SE</country>
-    <revision>6</revision>
+    <revision>7</revision>
     <minversion>5</minversion>
-    <description>Name and address
-Rev 2: Search!
-Rev 3: Site update
-Rev 4: Site update
-Rev 5: Site update</description>
+    <description>Name and address</description>
     <icon>http://www.hitta.se/static/img/logos/hitta.se-210x210.png</icon>
     <link>http://www.hitta.se/</link>
   </meta>
@@ -38,7 +34,7 @@ Rev 5: Site update</description>
     </set>
     <set id="04574098938610405" name="#do_search" url="http://www.hitta.se/s%C3%B6k?vad=${searchCombo}&amp;typ=${searchType}&amp;sida=${page}" requestfields="Header" requestvalue="Referer:http://www.hitta.se/&#xA;User-Agent:Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" includeheaders="true">
       <set id="09445427818646301" name="#result-ul" value="/&lt;ul class=&quot;result-list-small[^&gt;]*&gt;(.*?)&lt;/ul&gt;\s*&lt;div class=&quot;result-list__pagination/" resultrange="0">
-        <set id="09009224770125002" name="result" value="/&lt;li [^&gt;]*class=&quot;[^&quot;]*result-row.*?&lt;a [^&gt;]*&gt;(.*?)&lt;/li&gt;/">
+        <set id="09009224770125002" name="result" value="/(&lt;li [^&gt;]*class=&quot;[^&quot;]*result-row.*?&lt;a [^&gt;]*&gt;.*?&lt;/li&gt;)/">
           <set id="036355891381390393" name="name" value="/&lt;h2[^&gt;]*&gt;\s*&lt;span[^&gt;]*&gt;(.*?)&lt;/span&gt;/" decode="XML" />
           <set id="04917184840887785" name="number" value="/&lt;h2[^&gt;]*&gt;.*&lt;span[^&gt;]*&gt;(.+?)\s*&lt;/span&gt;\s*&lt;/h2&gt;/" />
           <set id="012114684283733368" name="#address" value="/&lt;p class=&quot;result-row__address&quot;[^&gt;]*&gt;(.*?)&lt;/p&gt;/">
@@ -48,9 +44,9 @@ Rev 5: Site update</description>
               </set>
             </set>
           </set>
-          <set id="0403316100127995" name="url" value="/&lt;h2[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.hitta.se{0}" />
-          <set id="04553735472727567" name="#type" input="04574098938610405" value="/&lt;div id=&quot;primary-content&quot;[^&gt;]*&gt;\s*&lt;section id=&quot;(.*?)&quot;/">
-            <set id="03975307769142091" name="type" value="/(companies)&#xA;(people)/" decode="RegexMultiReplace" formatstring="business&#xA;person" />
+          <set id="0403316100127995" name="url" value="/&lt;li[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.hitta.se{0}" />
+          <set id="04553735472727567" name="#type" value="/&lt;li class=&quot;[^&quot;]*result-row-(.+?)(?:\b|_)/" resultrange="0">
+            <set id="03975307769142091" name="type" value="/company/" decode="RegexReplace" formatstring="business" />
           </set>
         </set>
       </set>
