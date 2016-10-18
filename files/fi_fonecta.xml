@@ -2,9 +2,9 @@
   <meta>
     <name>Fonecta.fi</name>
     <country>FI</country>
-    <revision>11</revision>
+    <revision>12</revision>
     <description>Finnish phone number directory (Login is required!)
-Rev. 11: Minor site changes
+Rev. 12: Minor site changes
 </description>
     <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
     <minversion>5</minversion>
@@ -99,12 +99,12 @@ Rev. 11: Minor site changes
       <set id="07496948905754834" name="#result" value="/&lt;div class=&quot;search-result [^&gt;]*&gt;(.*?)(?=&lt;div class=&quot;search-result |&lt;div class=&quot;container)/">
         <set id="07226989192422479" name="result" value="/(.*class=&quot;profile.*)/">
           <set id="05055977350566536" name="name" value="/&lt;a href=&quot;/profiili[^&gt;]*&gt;\s*(.*?)\s*(?:,|&lt;/a&gt;)/" decode="XML" />
-          <set id="0757854979718104" name="address" value="/&lt;i class=&quot;fa fa-li fa-map-marker c-grey&quot;&gt;&lt;/i&gt;\s*&lt;a class=&quot;non-primary&quot; href=&quot;[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/" decode="XML" />
+          <set id="0757854979718104" name="address" value="/&lt;a class=&quot;[^&quot;]*js-search-result-map-link[^&gt;]*&gt;\s*(.*?)\s*&lt;|&lt;i class=&quot;fa fa-map-marker&quot;&gt;&lt;/i&gt;\s*&lt;span[^&gt;]*&gt;\s*(.*?)\s*&lt;/" decode="XML" />
           <set id="004869626765139401" name="number" value="/href=&quot;tel:([ \d]+)/" resultrange="0" />
           <set id="010355235892347991" name="name" value="/(class=&quot;data-hidden data-hidden-name&quot;)/" decode="FormatString" formatstring="Piilotettu nimi" />
           <set id="09503504363819957" name="address" value="/(class=&quot;data-hidden data-hidden-streetname&quot;)/" decode="FormatString" formatstring="Piilotettu osoite" />
-          <set id="0009894580114632845" name="type" value="/(&lt;span class=&quot;icon person)/" decode="FormatString" formatstring="person" />
-          <set id="03851928145159036" name="type" value="/(&lt;span class=&quot;icon company)/" decode="FormatString" formatstring="business" />
+          <set id="0009894580114632845" name="type" value="/(&lt;div class=&quot;contact-image person&quot;&gt;)/" decode="FormatString" formatstring="person" />
+          <set id="03851928145159036" name="type" value="/(&lt;div class=&quot;contact-image company&quot;&gt;)/" decode="FormatString" formatstring="business" />
           <set id="05422019076067954" name="url" value="/&lt;a href=&quot;(/profiili/.*?)&quot;/" decode="FormatString" formatstring="https://www.fonecta.fi{0}" />
         </set>
       </set>
