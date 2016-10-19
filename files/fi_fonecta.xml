@@ -45,7 +45,7 @@ Rev. 12: Minor site changes
             </set>
           </set>
           <set id="07975250973831862" name="#result" value="${pageResult}">
-            <set id="0012743503553792834" name="field" value="/&lt;h[12] class=&quot;fo-h2[^&gt;]*&gt;(.*?)&lt;/h/" resultrange="0">
+            <set id="0012743503553792834" name="field" value="/&lt;h[12] class=&quot;[^&quot;]*fo-h2[^&gt;]*&gt;(.*?)&lt;/h/" resultrange="0">
               <set id="05151916004251689" name="title" value="Nimi" />
               <set id="07652360759675503" name="value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
               <set id="05747272411826998" name="stitle" value="name" />
