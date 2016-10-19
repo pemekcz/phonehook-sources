@@ -2,9 +2,9 @@
   <meta>
     <name>Fonecta.fi</name>
     <country>FI</country>
-    <revision>12</revision>
+    <revision>13</revision>
     <description>Finnish phone number directory (Login is required!)
-Rev. 12: Minor site changes
+Rev. 13: Minor site changes
 </description>
     <icon>https://d8h27luzpddqp.cloudfront.net/images/fonectafi/fonectafi-logo-ad659e0b57.png</icon>
     <minversion>5</minversion>
