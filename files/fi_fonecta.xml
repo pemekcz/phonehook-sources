@@ -6,7 +6,7 @@
     <description>Finnish phone number directory (Login is required!)
 Rev. 12: Minor site changes
 </description>
-    <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
+    <icon>https://d8h27luzpddqp.cloudfront.net/images/fonectafi/fonectafi-logo-ad659e0b57.png</icon>
     <minversion>5</minversion>
     <param title="Username">user</param>
     <param title="Password" type="password">password</param>
