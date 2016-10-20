@@ -2,8 +2,9 @@
   <meta>
     <name>PagineBianche.it</name>
     <country>IT</country>
-    <revision>1</revision>
-    <description>Italian telephone directory</description>
+    <revision>2</revision>
+    <description>Italian telephone directory.
+Rev 2: Number search fix</description>
     <icon>http://phonehook.omnight.com/logos/it_pagine_bianche.png</icon>
     <minversion>9</minversion>
     <link>http://www.paginebianche.it/</link>
@@ -51,7 +52,7 @@
             <set id="03522791098803282" name="address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
           </set>
         </set>
-        <set id="08862188500352204" name="number" value="/&lt;span class=&quot;type&quot;&gt;tel:&lt;/span&gt; &lt;span class=&quot;value&quot;&gt;(.+?)&lt;/span&gt;/" />
+        <set id="08862188500352204" name="number" value="/&lt;span[^&gt;]*itemprop=&quot;telephone&quot;[^&gt;]*&gt;(.*?)&lt;/span&gt;/" />
         <set id="04886027022730559" name="#type" value="${tagWanted}">
           <set id="06918883468024433" name="type" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
         </set>
