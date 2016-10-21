@@ -6,4 +6,5 @@ If you have an problem with a source (e.g. results not showing correctly) you ca
 For bugs/suggestions for the app, please create issues in the respective repositories:
 
 Sailfish - https://github.com/omnight/phonehook
+
 Android - https://github.com/omnight/phonehook-android
