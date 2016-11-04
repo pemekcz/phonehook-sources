@@ -2,22 +2,24 @@
   <meta>
     <name>PagesJaunes</name>
     <country>FR</country>
-    <revision>3</revision>
+    <revision>4</revision>
     <minversion>7</minversion>
     <description>Online phonebook
-Rev. 3: Site update</description>
+Rev. 4: Site update</description>
     <icon>http://phonehook.omnight.com/logos/fr_pagesjaunes.png</icon>
   </meta>
   <set id="root" name="result" url="http://www.pagesjaunes.fr/annuaireinverse/recherche?quoiqui=${telnr}&amp;proximite=0" postrequest="true" postdata="quoiqui=${telnr}" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded">
     <set id="0188700559749583" name="#match" value="/&lt;article(.*?)&lt;/article&gt;/">
-      <set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;company-name[^&gt;]*&gt;\s*&lt;a[^&gt;]*title=&quot;(.*?)&quot;/">
+      <set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;company-name[^&gt;]*&gt;\s*&lt;span[^&gt;]*title=&quot;(.*?)&quot;/">
         <set id="06347983062732965" name="title" value="Nom" />
         <set id="07708441454451531" name="value" value="/(.+)/" decode="XML" />
         <set id="0026224999455735087" name="stitle" value="name" />
       </set>
-      <set id="08448368094395846" name="field" value="/&lt;div class=&quot;adresse-container&quot;&gt;\s*&lt;a[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
+      <set id="08448368094395846" name="field" value="/&lt;div class=&quot;adresse-container&quot;&gt;\s*&lt;span[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
         <set id="08172364432830364" name="title" value="Adresse" />
-        <set id="04834553822875023" name="value" value="/(.+)/" decode="XML" />
+        <set id="0803892841219084" name="#spaces" value="/ \s+/" decode="RegexReplace" formatstring=" ">
+          <set id="04834553822875023" name="value" value="/(.+)/" decode="XML" />
+        </set>
         <set id="07270531682297587" name="stitle" value="address" />
       </set>
     </set>
@@ -27,10 +29,14 @@ Rev. 3: Site update</description>
     <set id="04583567089866847" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
     <set id="03450885624624789" name="#url" value="${url}">
       <set id="08008291553705931" name="#emptycheck" value="/^()$/">
-        <set id="031575261102989316" name="#tagwanted" value="${tagWanted}"><set id="05444246914802342" name="#is_yp_search" value="/(company_search)/"><set id="012395843700505793" name="searchurl" paramoutput="true" value="http://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=${searchNameF}&amp;ou=${searchAreaF}" /></set>
-          
-          
-        <set id="0008426991808932804" name="#is_wp_search" value="/(person_search)/"><set id="031553599428759815" name="searchurl" value="http://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui=${searchNameF}&amp;ou=${searchAreaF}&amp;proximite=0" paramoutput="true" /></set></set>
+        <set id="031575261102989316" name="#tagwanted" value="${tagWanted}">
+          <set id="05444246914802342" name="#is_yp_search" value="/(company_search)/">
+            <set id="012395843700505793" name="searchurl" paramoutput="true" value="http://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=${searchNameF}&amp;ou=${searchAreaF}" />
+          </set>
+          <set id="0008426991808932804" name="#is_wp_search" value="/(person_search)/">
+            <set id="031553599428759815" name="searchurl" value="http://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui=${searchNameF}&amp;ou=${searchAreaF}&amp;proximite=0" paramoutput="true" />
+          </set>
+        </set>
         <set id="03056182761210948" name="urldata" url="${searchurl}" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded; charset=UTF-8&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36" postdata="${searchparams}" paramoutput="true">
           <set id="09542034480255097" name="urldata" paramoutput="true" url="/goodxSEO:(.*)/" />
         </set>
@@ -40,18 +46,18 @@ Rev. 3: Site update</description>
       </set>
     </set>
     <set id="019354051467962563" name="#load" value="${urldata}">
-      <set id="02279629276599735" name="result" value="/&lt;article[^&gt;]*&gt;(.*?)&lt;/article&gt;/">
-        <set id="021994101465679705" name="#name" value="/&lt;a[^&gt;]*title=&quot;(.*?)&quot;/" resultrange="0">
+      <set id="02279629276599735" name="result" value="/(&lt;article[^&gt;]*&gt;.*?&lt;/article&gt;)/">
+        <set id="021994101465679705" name="#name" value="/&lt;h2 class=&quot;company-name[^&gt;]*&gt;\s*&lt;span[^&gt;]*title=&quot;(.*?)&quot;/" resultrange="0">
           <set id="016665523778647184" name="name" value="/&lt;.*?&gt;/" decode="RegexReplace" />
         </set>
-        <set id="05842621910851449" name="#url" value="/&lt;a[^&gt;]*class=&quot;[^&quot;]*denomination-links[^&gt;]*&quot;url&quot;:&quot;(.*?)&quot;/"><set id="019265605789388984" name="url" value="/(.+)/" decode="base64" /></set>
-        <set id="05778439524583519" name="url" value="/&lt;a[^&gt;]*class=&quot;[^&quot;]*denomination-links[^&gt;]*\bhref=&quot;([^#&quot;]*)&quot;/" formatstring="http://www.pagesjaunes.fr{0}" decode="FormatString">
-          
+        <set id="05842621910851449" name="#url" value="/&lt;span[^&gt;]*class=&quot;[^&quot;]*pj-link[^&gt;]*&quot;url&quot;:&quot;(.*?)&quot;/" resultrange="0">
+          <set id="019265605789388984" name="url" value="/(.+)/" decode="base64" />
         </set>
-        <set id="025088422279804945" name="type" value="/(class=&quot;company-name&quot;)/" decode="FormatString" formatstring="business" />
-        <set id="09308982812799513" name="type" value="/(titleMainPb&quot;&gt;)/" decode="FormatString" formatstring="person" />
-        <set id="034235307900235057" name="#address" value="/&lt;div class=&quot;adresse-container&quot;&gt;\s*(.*?)\s*&lt;/div&gt;/">
-          <set id="05708588482812047" name="#address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+        <set id="05778439524583519" name="url" value="/&lt;a[^&gt;]*class=&quot;[^&quot;]*denomination-links[^&gt;]*\bhref=&quot;([^#&quot;]*)&quot;/" formatstring="http://www.pagesjaunes.fr{0}" decode="FormatString" />
+        <set id="025088422279804945" name="type" value="/(bi-pro)/" decode="FormatString" formatstring="business" />
+        <set id="09308982812799513" name="type" value="/(bi-part)/" decode="FormatString" formatstring="person" resultrange="0" />
+        <set id="034235307900235057" name="#address" value="/&lt;div class=&quot;adresse-container&quot;&gt;\s*&lt;span[^&gt;]*&gt;\s*(.*?)\s*&lt;/">
+          <set id="05708588482812047" name="#address" value="/&lt;[^&gt;]*&gt;&#xA; \s+/" decode="RegexMultiReplace" formatstring="&#xA; ">
             <set id="04576123065780848" name="address" value="/(.+)/" decode="XML" />
           </set>
         </set>
@@ -59,10 +65,9 @@ Rev. 3: Site update</description>
           <set id="08848961621988565" name="number" value="/(.+)/" decode="XML" />
         </set>
       </set>
-      <set id="020074535394087434" name="next" value="/&lt;a[^&gt;]*class=&quot;link_pagination next[^&gt;]*&quot;url&quot;:&quot;(.*?)&quot;/" decode="base64">
+      <set id="020074535394087434" name="next" value="/&lt;span[^&gt;]*class=&quot;link_pagination next[^&gt;]*&quot;url&quot;:&quot;(.*?)&quot;/" decode="base64">
         <set id="01398697334807366" name="tagWanted" value="${tagWanted}" />
         <set id="00062188522424548864" name="context" value="/var idContext=&quot;([-\d]+)&quot;/" paramoutput="true" />
-        
         <set id="044309581350535154" name="url" value="/(.+)/" decode="FormatString" formatstring="http://www.pagesjaunes.fr{0}" />
       </set>
     </set>
