@@ -2,7 +2,7 @@
   <meta>
     <name>krak</name>
     <country>DK</country>
-    <revision>3</revision>
+    <revision>4</revision>
     <minversion>6</minversion>
     <description>Online phonebook
 Rev. 3: Minor url update</description>
@@ -43,7 +43,7 @@ Rev. 3: Minor url update</description>
             <set id="06369927527848631" name="number" value="/&lt;a[^&gt;]*data-phone=&quot;([^&quot;]*)/" />
           </set>
           <set id="05857617647852749" name="type" value="/(&lt;span class=&quot;icon-description&quot;&gt;Person&lt;/span&gt;)/" decode="FormatString" formatstring="person" />
-          <set id="037293665879406035" name="type" value="/(&lt;span class=&quot;icon-description&quot;&gt;Firma&lt;/span&gt;)/" decode="FormatString" formatstring="business" />
+          <set id="037293665879406035" name="type" value="/(&lt;h2[^&gt;]*hit-company-name)/" decode="FormatString" formatstring="business" resultrange="0" />
         </set>
       </set>
       <set id="09139369821641594" name="next" value="/&lt;li class=&quot;page-next&quot;&gt;.*?href=&quot;[^&quot;]*?(?&lt;=/|:)(\d+)/">
