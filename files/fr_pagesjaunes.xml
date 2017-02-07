@@ -2,13 +2,13 @@
   <meta>
     <name>PagesJaunes</name>
     <country>FR</country>
-    <revision>6</revision>
+    <revision>7</revision>
     <minversion>7</minversion>
     <description>Online phonebook
 Rev. 6: Site update</description>
     <icon>http://phonehook.omnight.com/logos/fr_pagesjaunes.png</icon>
   </meta>
-  <set id="root" name="result" url="http://www.pagesjaunes.fr/annuaireinverse/recherche?universe=pagesjaunes" postrequest="true" postdata="quoiqui=${telnr}&amp;ou=&amp;idOu=&amp;acOuSollicitee=0&amp;rangOu=&amp;sourceOu=&amp;typeOu=&amp;nbPropositionOuTop=0&amp;nbPropositionOuHisto=0&amp;ouSaisi=&amp;ouNbCar=&amp;acQuiQuoiSollicitee=1&amp;rangQuiQuoi=&amp;sourceQuiQuoi=&amp;typeQuiQuoi=&amp;idQuiQuoi=&amp;nbPropositionQuiQuoiTop=0&amp;nbPropositionQuiQuoiHisto=0&amp;quiQuoiSaisi=${telnr}&amp;quiQuoiNbCar=" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded">
+  <set id="root" name="result" url="https://www.pagesjaunes.fr/annuaireinverse/recherche?quoiqui=${telnr}&amp;proximite=0" postrequest="true" postdata="quoiqui=${telnr}" requestfields="Header" requestvalue="Content-Type:application/x-www-form-urlencoded">
     <set id="0188700559749583" name="#match" value="/&lt;article(.*?)&lt;/article&gt;/">
       <set id="046193668409250677" name="field" value="/&lt;h2 class=&quot;company-name[^&gt;]*&gt;\s*&lt;a[^&gt;]*title=&quot;(.*?)&quot;/">
         <set id="06347983062732965" name="title" value="Nom" />
