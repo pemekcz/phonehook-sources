@@ -2,7 +2,7 @@
   <meta>
     <name>11888.gr</name>
     <country>GR</country>
-    <revision>1</revision>
+    <revision>2</revision>
     <minversion>5</minversion>
     <description>Greek online phonebook and lookup</description>
     <icon>http://phonehook.omnight.com/logos/11888.png</icon>
@@ -29,7 +29,7 @@
     <set id="07056987995747477" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
     <set id="07273261479567736" name="#url" value="${url}">
       <set id="0871825325768441" name="#empty" value="/^()$/">
-        <set id="09508526441641152" name="url" paramoutput="true" value="http://www.11888.gr/list-names?_wpType=name&amp;_wpName=${searchNameF}&amp;_wpWhere=${searchAreaF}" />
+        <set id="09508526441641152" name="url" paramoutput="true" value="https://www.11888.gr/list-names?_wpType=name&amp;_wpName=${searchNameF}&amp;_wpWhere=${searchAreaF}" />
       </set>
     </set>
     <set id="009132295311428607" name="#search" url="${url}" encoding="utf-8">
@@ -51,7 +51,7 @@
     <set id="07414839337579906" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
     <set id="09761018466670066" name="#url" value="${url}">
       <set id="009726609173230827" name="#empty" value="/^()$/">
-        <set id="08577248610090464" name="url" paramoutput="true" value="http://www.11888.gr/search/${searchNameF}/${searchAreaF}" />
+        <set id="08577248610090464" name="url" paramoutput="true" value="https://www.11888.gr/search/${searchNameF}/${searchAreaF}" />
       </set>
     </set>
     <set id="05703714287374169" name="#search" url="${url}" encoding="utf-8">
