@@ -2,11 +2,10 @@
   <meta>
     <name>1881.no</name>
     <country>NO</country>
-    <revision>2</revision>
+    <revision>3</revision>
     <minversion>4</minversion>
     <description>Norwegian lookup and search
-
-Rev 2: Site update
+Rev 3: Site update
 </description>
     <link>https://www.1881.no</link>
     <icon>https://omnight.github.io/phonehook-sources/logos/1881.no.png</icon>
@@ -18,11 +17,11 @@ Rev 2: Site update
         <set id="06066502444273367" name="title" value="Name" />
         <set id="027979630662729615" name="value" value="/(.+)/" />
       </set>
-      <set id="012107471982463314" name="field" value="/&lt;h2&gt;Adresse&lt;/h2&gt;\s*&lt;ul&gt;(.*?)&lt;/ul&gt;/" decode="XML">
+      <set id="012107471982463314" name="field" value="/&lt;p class=&quot;details__address&quot;&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML">
         <set id="0381606800909311" name="stitle" value="address" />
         <set id="046390287394880314" name="title" value="Address" />
-        <set id="06681203954321775" name="#remove-map" value="/&lt;li&gt;&lt;a[^&gt;]*&gt;Kart.*?&lt;/li&gt;/" decode="RegexReplace">
-          <set id="024104173347360813" name="value" value="/^\s*|&lt;[^&gt;]*&gt;|\s*$&#xA;\s*\n\s*/" decode="RegexMultiReplace" formatstring="&#xA;, " />
+        <set id="06681203954321775" name="#remove-map" value="/&lt;span class=&quot;details__map-link&quot;&gt;.*?&lt;/span&gt;/" decode="RegexReplace">
+          <set id="024104173347360813" name="value" value="/^\s*|&lt;[^&gt;]*&gt;|\s*$|^\n+&#xA;\s+/" decode="RegexMultiReplace" formatstring="&#xA; " />
         </set>
       </set>
     </set>
@@ -38,12 +37,14 @@ Rev 2: Site update
     </set>
     <set id="035336514562071075" name="#load" url="${url}">
       <set id="06469495479535021" name="result" value="/(&lt;div[^&gt;]*class=&quot;[^&quot;]*listing[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/">
-        <set id="028681456154693397" name="name" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing-name[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML" />
-        <set id="08516571164332833" name="#address" value="/&lt;li[^&gt;]*class=&quot;[^&quot;]*listing-address-street[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;.*?&lt;li[^&gt;]*class=&quot;[^&quot;]*listing-address-city[^&gt;]*&gt;\s*(.*?)&lt;/li&gt;/" decode="FormatString" formatstring="{0}, {1}">
-          <set id="008579021267571973" name="address" value="/(.+)/" decode="XML" />
+        <set id="028681456154693397" name="name" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing__name[^&gt;]*&gt;\s*&lt;a[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML" />
+        <set id="08516571164332833" name="#address" value="/&lt;p class=&quot;listing__address&quot;&gt;(.*?)&lt;/p&gt;/">
+          <set id="008579021267571973" name="#address" value="/&lt;span class=&quot;listing__map-link&quot;&gt;.*?&lt;/span&gt;|&lt;[^&gt;]*&gt;&#xA;\s+/" decode="RegexMultiReplace" formatstring="&#xA; ">
+            <set id="031396121175744907" name="address" value="/(.+?)\s*$/" decode="XML" />
+          </set>
         </set>
         <set id="06583263887471584" name="number" value="/href=&quot;tel:(\d+)&quot;/" />
-        <set id="09834917239914611" name="url" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing-name[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
+        <set id="09834917239914611" name="url" value="/&lt;h2[^&gt;]*class=&quot;[^&quot;]*listing__name[^&gt;]*&gt;\s*&lt;a[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
         <set id="05979393062202354" name="#type" value="/^&lt;div class=&quot;(.*?)&quot;/">
           <set id="0679871514784546" name="type" value="/.*listing--business.*&#xA;^(?!business).*/" decode="RegexMultiReplace" formatstring="business&#xA;person" />
         </set>
