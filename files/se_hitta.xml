@@ -2,7 +2,7 @@
   <meta>
     <name>Hitta.se</name>
     <country>SE</country>
-    <revision>7</revision>
+    <revision>8</revision>
     <minversion>5</minversion>
     <description>Name and address</description>
     <icon>http://www.hitta.se/static/img/logos/hitta.se-210x210.png</icon>
@@ -16,7 +16,7 @@
     </set>
     <set id="041087536071427166" name="field" value="/&lt;div[^&gt;]*(?:itemprop=&quot;address&quot;|class=&quot;group--tiny&quot;)[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML">
       <set id="08577135917730629" name="title" value="Address" />
-      <set id="0845082618866476" name="#br" value="/&lt;br/?&gt;/" decode="RegexReplace" formatstring=", ">
+      <set id="0845082618866476" name="#br" value="/&lt;h2[^&gt;]*heading--subtle.*?&lt;/h2&gt;&#xA;&lt;br/?&gt;/" decode="RegexMultiReplace" formatstring="&#xA;, ">
         <set id="003758557396940887" name="#value" value="/&lt;.*?&gt;/" decode="RegexReplace" formatstring="&#xA;">
           <set id="03777313558384776" name="#value" value="/(^\s+|\n+)/" decode="RegexReplace">
             <set id="05071027660742402" name="value" value="/( )\s*/" decode="RegexReplace" formatstring=" " />
