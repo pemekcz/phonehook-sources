@@ -39,7 +39,7 @@
     <set id="08446557114610604" name="#url is empty?" value="${url}">
       <set id="0542910836071719" name="url" paramoutput="true" value="/^()$/" decode="FormatString" formatstring="https://www.telefoonboek.nl/${tagWantedF}/${searchNameF}/${searchAreaF}?_=${time}" />
     </set>
-    <set id="0590900753149513" name="#load" url="${url}">
+    <set id="0590900753149513" name="#load" url="${url}" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36">
       <set id="07900567063606383" name="result" value="/&lt;ul class=&quot;info-list(.*?)&lt;/ul&gt;/">
         <set id="05337220466718837" name="name" value="/&lt;meta itemprop=&quot;name&quot; content=&quot;(.*?)&quot;/" decode="XML" />
         <set id="08618402915797254" name="#address" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
