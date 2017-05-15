@@ -2,7 +2,7 @@
   <meta>
     <name>Fonecta App</name>
     <country>FI</country>
-    <revision>1</revision>
+    <revision>2</revision>
     <description>Finnish phone number directory (Login is required!)
 Uses Fonecta Caller API
 </description>
@@ -80,21 +80,19 @@ Uses Fonecta Caller API
       <set id="007375113439768555" name="result" value="/&quot;hideReason&quot;:&quot;([^&quot;]+)/">
         <set id="049589936791800904" name="name" value="/(.+)/" decode="FormatString" formatstring="Error: {0}" />
       </set>
-      <set id="02208935701039052" name="#result" value="/&quot;result&quot;:(\[(?:[^\[\]]|(?1))*\])/">
-        <set id="06333159476222618" name="result" value="/(\{(?:[^\{\}]|(?1))*\})/">
-          <set id="06020287828533861" name="name" value="/&quot;name&quot;:&quot;([^&quot;]+)&quot;/" resultrange="0" decode="JSON" />
-          <set id="08072041055110457" name="number" value="/&quot;mobile&quot;:&quot;(\d+)&quot;/" />
-          <set id="07334017800253463" name="url" value="/&quot;id&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="https://www.fonecta.fi/profiili/{0}/" />
-          <set id="07312059203367427" name="#type" value="/&quot;contactType&quot;:&quot;(.*?)&quot;/">
-            <set id="06665030458433054" name="type" value="/PERSON&#xA;COMPANY/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
-          </set>
-          <set id="09799321940659138" name="#address" value="/&quot;streetAddress&quot;:&quot;(.*?)&quot;.*?&quot;postOffice&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="{0}, {1}">
-            <set id="08756419946008" name="address" value="/(.+)/" decode="JSON" />
-          </set>
+      <set id="06333159476222618" name="result" value="/(\{&quot;id&quot;:.*?)(?={&quot;id&quot;|$)/">
+        <set id="06020287828533861" name="name" value="/&quot;name&quot;:&quot;([^&quot;]+)&quot;/" resultrange="0" decode="JSON" />
+        <set id="08072041055110457" name="number" value="/&quot;mobile&quot;:&quot;(\d+)&quot;/" />
+        <set id="07334017800253463" name="url" value="/&quot;id&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="https://www.fonecta.fi/profiili/{0}/" />
+        <set id="07312059203367427" name="#type" value="/&quot;contactType&quot;:&quot;(.*?)&quot;/">
+          <set id="06665030458433054" name="type" value="/PERSON&#xA;COMPANY/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
+        </set>
+        <set id="09799321940659138" name="#address" value="/&quot;streetAddress&quot;:&quot;(.*?)&quot;.*?&quot;postOffice&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="{0}, {1}">
+          <set id="08756419946008" name="address" value="/(.+)/" decode="JSON" />
         </set>
       </set>
       <set id="05622981285249655" name="next" value="/(&quot;hasNextPage&quot;:true)/">
-        <set id="00012372201675170391" name="page" input="0020674021231564366" value="/&quot;page&quot;:(\d+)/" decode="Script" formatstring="function f(a) {&#xA;return parseInt(a)+1;&#xA;}" />
+        <set id="00012372201675170391" name="page" value="/&quot;page&quot;:(\d+)/" decode="Script" formatstring="function f(a) {&#xA;return parseInt(a)+1;&#xA;}" input="0020674021231564366" />
       </set>
     </set>
   </set>
