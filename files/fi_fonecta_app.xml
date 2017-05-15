@@ -2,7 +2,7 @@
   <meta>
     <name>Fonecta App</name>
     <country>FI</country>
-    <revision>2</revision>
+    <revision>3</revision>
     <description>Finnish phone number directory (Login is required!)
 Uses Fonecta Caller API
 </description>
@@ -93,6 +93,9 @@ Uses Fonecta Caller API
       </set>
       <set id="05622981285249655" name="next" value="/(&quot;hasNextPage&quot;:true)/">
         <set id="00012372201675170391" name="page" value="/&quot;page&quot;:(\d+)/" decode="Script" formatstring="function f(a) {&#xA;return parseInt(a)+1;&#xA;}" input="0020674021231564366" />
+        <set id="015144768529331176" name="tagWanted" value="${tagWanted}" />
+        <set id="02371520875438511" name="searchName" value="${searchName}" />
+        <set id="08472242531031389" name="searchArea" value="${searchArea}" />
       </set>
     </set>
   </set>
