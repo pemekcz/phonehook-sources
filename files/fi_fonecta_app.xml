@@ -2,7 +2,7 @@
   <meta>
     <name>Fonecta App</name>
     <country>FI</country>
-    <revision>3</revision>
+    <revision>4</revision>
     <description>Finnish phone number directory (Login is required!)
 Uses Fonecta Caller API
 </description>
@@ -29,7 +29,7 @@ Uses Fonecta Caller API
       </set>
     </set>
     <set id="015942101036505174" name="#lookup" url="https://caller.fonapi.fi/contact/singlefieldSearch?invocation=automatic_incoming_call&amp;what=${telnr}&amp;limit=1" requestfields="Header" requestvalue="${headers}">
-      <set id="08450425988803265" name="#process" value="/(.+)/" formatstring="function f(a) {&#xA;var obj = JSON.parse(a);&#xA;return 'name:' + obj.search.result[0].name + &#xA;'\n\naddress:' + obj.search.result[0].address.streetAddress + &#xA;'\n\ncity:' + obj.search.result[0].homeCity + &#xA;'\n\nwebsite:' + obj.search.result[0].companyUrl +&#xA;'\n\ncategory:' + obj.search.result[0].lineofBusinessNames[0] +&#xA;'\n\n'&#xA;}" decode="Script">
+      <set id="08450425988803265" name="#process" value="/(.+)/" formatstring="function f(a) {&#xA;var obj = JSON.parse(a);&#xA;return 'name:' + obj.search.result[0].name + &#xA;(obj.search.result[0].address ? '\n\naddress:' + obj.search.result[0].address.streetAddress : '') +&#xA;(obj.search.result[0].cityName ? '\n\ncity:' + obj.search.result[0].cityName : '' ) + &#xA;(obj.search.result[0].companyUrl ? '\n\nwebsite:' + obj.search.result[0].companyUrl : '') +&#xA;(obj.search.result[0].lineofBusinessNames &amp;&amp; obj.search.result[0].lineofBusinessNames.length ? '\n\ncategory:' + obj.search.result[0].lineofBusinessNames[0] : '') +&#xA;'\n\n'&#xA;}" decode="Script">
         <set id="006738987852977374" name="field" value="/name:(.*?)\n\n/">
           <set id="035289515611714495" name="title" value="Name" />
           <set id="07348370030063274" name="stitle" value="name" />
@@ -49,6 +49,11 @@ Uses Fonecta Caller API
           <set id="09891939390168925" name="title" value="Category" />
           <set id="0010284669506345878" name="stitle" value="category" />
           <set id="03423753609886888" name="value" value="/(.+)/" />
+        </set>
+        <set id="05037841844436166" name="field" value="/city:(.*?)\n\n/">
+          <set id="06993102075299591" name="title" value="City" />
+          <set id="02559298944190891" name="stitle" value="city" />
+          <set id="08762101144468246" name="value" value="/(.+)/" />
         </set>
       </set>
     </set>
