@@ -2,7 +2,7 @@
   <meta>
     <name>Gouden+Witte Gids</name>
     <country>BE</country>
-    <revision>1</revision>
+    <revision>2</revision>
     <minversion>5</minversion>
     <description>Yellow and white pages for Belgium. Yellow pages can be a bit data intensive.</description>
     <link>https://www.goudengids.be</link>
@@ -36,24 +36,36 @@
     </set>
   </set>
   <set id="06307430795859545" name="business_search" tags="business_search">
-    <set id="042620356543920934" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
-    <set id="043759493669494987" name="searchAreaF" paramoutput="true" value="${searchArea}" decode="URLEncode" />
+    <set id="042620356543920934" name="#searchNameF" value="${searchName}" decode="URLEncode">
+      <set id="05480194493903798" name="searchNameF" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="{0}/" />
+    </set>
+    <set id="043759493669494987" name="#searchAreaF" value="${searchArea}" decode="URLEncode">
+      <set id="06417242541272401" name="searchAreaF" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="{0}/" />
+    </set>
+    <set id="04342251487025164" name="#pageF" value="${page}">
+      <set id="04207031132031862" name="pageF" value="/(.+)/" decode="FormatString" formatstring="{0}/" paramoutput="true" />
+    </set>
     <set id="09067601272836328" name="#page" value="${page}">
       <set id="001198734762147069" name="#empty" value="/^()$/">
         <set id="02155100090894848" name="page" paramoutput="true" value="1" />
       </set>
     </set>
-    <set id="08929449890274554" name="#load" url="http://www.goudengids.be/q/ajax/business/results.json?input=&amp;what=${searchNameF}&amp;where=${searchAreaF}&amp;type=RESTO&amp;resultlisttype=A_AND_B&amp;page=${page}&amp;context=SRP*A_LIST" requestfields="Header" requestvalue="Content-Type:application/json; charset=utf-8&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36&#xA;Referer:http://www.goudengids.be/&#xA;Accept:application/json">
-      <set id="046609676955267787" name="#results" value="/&quot;searchResults&quot;:(.*?)&quot;zoningResults&quot;:/">
-        <set id="07516117542982101" name="result" value="/(&quot;uniqueId&quot;.*?)(?=&quot;uniqueId&quot;|$)/">
-          <set id="05154113634489477" name="name" value="/&quot;bn&quot;:&quot;(.*?)&quot;/" decode="JSON" />
-          <set id="07987920574378222" name="address" value="/&quot;displayAddress&quot;:&quot;(.*?)&quot;/" decode="JSON" />
+    <set id="08929449890274554" name="#load" url="https://www.goldenpages.be/search/${searchNameF}${searchAreaF}${pageF}" requestfields="Header" requestvalue="Content-Type:application/json; charset=utf-8&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36&#xA;Referer:http://www.goudengids.be/&#xA;Accept:application/json">
+      <set id="046609676955267787" name="#results" value="/&lt;li[^&gt;]*class=&quot;[^&quot;]*result-item[^&gt;]*&gt;(.*?)&lt;/div&gt;\s*&lt;/li&gt;/">
+        <set id="07516117542982101" name="result" value="/(.+)/">
+          <set id="05154113634489477" name="#name" value="/&lt;h2[^&gt;]*&gt;(.*?)&lt;/h2&gt;/">
+            <set id="07105785594296814" name="#name" value="/&lt;span class=&quot;index&quot;&gt;\d+&lt;/span&gt;|&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+              <set id="05118280974064984" name="name" value="/(.+)/" decode="XML" />
+            </set>
+          </set>
+          <set id="07987920574378222" name="#address" value="/&lt;li[^&gt;]*class=&quot;[^&quot;]*address[^&gt;]*&gt;(.*?)&lt;/li&gt;/">
+            <set id="049901393565788377" name="address" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
+          </set>
           <set id="039499446703121066" name="type" value="business" />
-          <set id="07035131072625518" name="url" value="/&quot;prettyUrl&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="http://www.goudengids.be{0}" />
-          <set id="03303165640681982" name="number" value="/&quot;phone&quot;:.*?&quot;value&quot;:&quot;(.*?)&quot;/" />
+          <set id="07035131072625518" name="url" value="/&lt;a href=&quot;(.*?)&quot;/" decode="RelativeURL" resultrange="0" />
         </set>
       </set>
-      <set id="06288835352752358" name="next" value="/&quot;overallResultPagination&quot;.*?&quot;nextPage&quot;:(\d+)/">
+      <set id="06288835352752358" name="next" value="/href=&quot;[^&quot;]*/(\d+)/&quot;&gt;Next&lt;/">
         <set id="07203233251348138" name="page" value="/(.+)/" />
         <set id="05724491768050939" name="searchArea" value="${searchArea}" />
         <set id="04487830444704741" name="searchName" value="${searchName}" />
