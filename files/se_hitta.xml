@@ -2,7 +2,7 @@
   <meta>
     <name>Hitta.se</name>
     <country>SE</country>
-    <revision>8</revision>
+    <revision>9</revision>
     <minversion>5</minversion>
     <description>Name and address</description>
     <icon>http://www.hitta.se/static/img/logos/hitta.se-210x210.png</icon>
@@ -50,8 +50,8 @@
           </set>
         </set>
       </set>
-      <set id="08406791421584785" name="#single result" value="/\nLocation: (.*?)\n/">
-        <set id="035003434331156313" name="#detail_page" url="/(.+)/">
+      <set id="08406791421584785" name="#single result" value="/(id=&quot;detail-page&quot;)/">
+        <set id="035003434331156313" name="#detail_page" value="/(.+)/" input="04574098938610405">
           <set id="05535629072692245" name="result" value="/&lt;html[^&gt;]*id=&quot;(?:item-page|detail-page)(.*)/">
             <set id="09254993731155992" name="name" value="/&lt;span[^&gt;]*itemprop=&quot;name&quot;[^&gt;]*&gt;(.*?)&lt;/span&gt;/" decode="XML" />
             <set id="07610282092355192" name="number" value="/&lt;span[^&gt;]*class=&quot;[^&quot;]*print-phone-number[^&gt;]*&gt;([0-9 \-]+)&lt;/span&gt;/" />
@@ -74,7 +74,7 @@
                 </set>
               </set>
             </set>
-            <set id="011645218706689775" name="url" value="/(.+)/" input="08406791421584785" />
+            <set id="011645218706689775" name="url" value="/&lt;link rel=&quot;canonical&quot; href=&quot;([^&quot;]+)&quot;/" input="04574098938610405" decode="RelativeURL" />
             <set id="09590717751998454" name="type" value="/&lt;html[^&gt;]*data-track-category=&quot;(detailpage_clicks_privat)&quot;/" resultrange="0" input="035003434331156313" decode="FormatString" formatstring="person" />
             <set id="005371356289833784" name="type" value="/&lt;html id=&quot;item-page&quot; class=&quot;[^&quot;]*(company)/" decode="FormatString" formatstring="business" resultrange="0" input="035003434331156313" />
           </set>
