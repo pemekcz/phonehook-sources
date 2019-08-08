@@ -1,0 +1,49 @@
+<robot>
+  <meta>
+    <name>Herold</name>
+    <country>AT</country>
+    <revision>1</revision>
+    <minversion>1</minversion>
+    <description>Phone number directory.</description>
+    <icon>https://www.herold.at/favicon.ico</icon>
+    <link>https://herold.at</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="002758836068111936" name="telnr" value="${telnr}" decode="URLEncode" paramoutput="true" />
+    <set id="019905580939683698" name="#search" url="https://www.herold.at/telefonbuch/telefon_${telnr}" encoding="utf-8" requestfields="Header" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&#xA;Accept-Language:en-US,sv-SE;q=0.8,sv;q=0.6,en;q=0.4&#xA;Cache-Control:max-age=0&#xA;Referer:https://www.herold.at&#xA;Upgrade-Insecure-Requests:1&#xA;User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36">
+      <set id="011104778977138263" name="field" value="/&lt;div[^&gt;]*class=&quot;[^&quot;]*result-item-card[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
+        <set id="08095508164147632" name="title" value="Name" />
+        <set id="08203684482900777" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+          <set id="05930882450473934" name="value" value="/(.+)/" decode="XML" />
+        </set>
+        <set id="019339592777541803" name="stitle" value="name" />
+      </set>
+      <set id="03627607446644432" name="field" value="/&lt;p[^&gt;]*class=&quot;[^&quot;]*address[^&gt;]*&gt;\s*(.*?)\s*&lt;/p&gt;/">
+        <set id="05422342564788736" name="title" value="Anschrift" />
+        <set id="047987697359791337" name="value" value="/\s*(.+)\s*/" />
+        <set id="0149416530373075" name="stitle" value="address" />
+      </set>
+    </set>
+  </set>
+  <set id="05259199941494636" name="search" tags="person_search,business_search">
+    <set id="021528363467160905" name="#url" value="${url}">
+      <set id="05742091425953456" name="#url" value="/^()$/">
+        <set id="06765732571257645" name="#tagWanted" value="${tagWanted}">
+          <set id="0753565208810403" name="tagWantedF" value="/(person_search)&#xA;(business_search)/" decode="RegexMultiReplace" formatstring="/telefonbuch&#xA;/gelbe-seiten" paramoutput="true" />
+        </set>
+        <set id="013731633377671282" name="searchNameF" paramoutput="true" value="${searchName}" decode="URLEncode" />
+        <set id="03332795877039897" name="#searchArea" value="${searchArea}" decode="URLEncode">
+          <set id="09986892432236188" name="searchAreaF" paramoutput="true" value="/(.+)/" decode="FormatString" formatstring="{0}" />
+        </set>
+        <set id="03747611862466663" name="url" paramoutput="true" value="https://www.herold.at${tagWantedF}/j2QCT_${searchAreaF}/was_${searchNameF}" />
+      </set>
+    </set>
+    <set id="03470904276357575" name="#search" url="${url}" encoding="windows-1252" requestfields="Header" requestvalue="User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36">
+      <set id="036656468048884916" name="result" value="/(&lt;div[^&gt;]*class=&quot;[^&quot;]*result-item-card[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" pcre="true" decode="FormatString" formatstring="{0}">
+        <set id="05047788903872719" name="name" value="/&lt;span[^&gt;]*itemprop=&quot;[^&quot;]*name[^&gt;]*&gt;\s*(.*?)\s*&lt;/span&gt;/" decode="XML" />
+        <set id="07384814735758115" name="address" value="/&lt;p[^&gt;]*class=&quot;[^&quot;]*address[^&gt;]*&gt;\s*(.*?)\s*&lt;/p&gt;/" />
+        <set id="08731283993538115" name="number" value="/&lt;span[^&gt;]*class=&quot;[^&quot;]*contact-label[^&gt;]*&gt;[a-zA-Z\s]*&lt;/span&gt;([0-9\s]+)&lt;/div&gt;/" formatstring="{0}" pcre="true"></set>
+      </set>
+    </set>
+  </set>
+</robot>
