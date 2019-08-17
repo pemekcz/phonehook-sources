@@ -10,16 +10,16 @@ Rev. 3: Minor url update</description>
     <link>http://www.krak.dk</link>
   </meta>
   <set id="root" name="lookup" url="http://www.krak.dk/query?what=supersearch&amp;search_word=${telnr}" tags="lookup">
-    <set id="08467272333800793" name="field" value="/&lt;h2 class=&quot;hit-name&quot;&gt;(.*)&lt;/h2&gt;/">
+    <set id="08467272333800793" name="field" value="/&lt;div class=&quot;personName&quot;&gt;(.*)&lt;/div&gt;/">
       <set id="05736345457844436" name="title" value="Navn" />
-      <set id="06674937077332288" name="#value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+      <set id="06674937077332288" name="#value" value="/&lt;a id=&quot;person_link[^&gt;]*&gt;\s*(.*?)\s*&lt;\/a&gt;/">
         <set id="015274260053411126" name="value" value="/^\s*(.+?)\s*$/" />
       </set>
       <set id="048613452864810824" name="stitle" value="name" />
     </set>
-    <set id="009471536660566926" name="field" value="/&lt;span class=&quot;hit-street-address&quot;&gt;\s*(.*?)\s*&lt;.*?&lt;span class=&quot;hit-postal-code&quot;&gt;\s*(.*?)\s*&lt;.*?&lt;span class=&quot;hit-address-locality&quot;&gt;\s*(.*?)\s*&lt;/" decode="FormatString" formatstring="{0}&#xA;{1} {2}">
+    <set id="009471536660566926" name="field" value="/&lt;div class=&quot;address[^&gt;]*&gt;\s*(.*?)\s*&lt;\/div&gt;/" formatstring="{0}&#xA;{1} {2}">
       <set id="07022500818129629" name="title" value="Adresse" />
-      <set id="0057739725802093744" name="value" value="/(.+)/" />
+      <set id="0057739725802093744" name="value" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace" />
       <set id="09524867385625839" name="stitle" value="address" />
     </set>
   </set>
@@ -34,11 +34,15 @@ Rev. 3: Minor url update</description>
       <set id="09994009949732572" name="url" value="/(business_search)&#xA;(person_search)/" paramoutput="true" decode="RegexMultiReplace" formatstring="http://www.krak.dk/${searchNameF}%20${searchAreaF}${pageF1}/s%C3%B8g.cs&#xA;http://www.krak.dk/person/resultat/${searchNameF}%20${searchAreaF}${pageF2}" />
     </set>
     <set id="023957440303638577" name="#search" url="${url}">
-      <set id="010339317354373634" name="#hitArea" value="/&lt;ol class=&quot;hit-list&quot;[^&gt;]*&gt;(.*?)&lt;/ol&gt;/">
-        <set id="05924396445043385" name="result" value="/&lt;article[^&gt;]*(?:hit)[^&gt;]*&gt;(.*?)&lt;/article&gt;/">
+      <set id="010339317354373634" name="#hitArea" value="/&lt;ul class=&quot;ResultList&quot;[^&gt;]*&gt;(.*?)&lt;/ul&gt;/">
+        <set id="05924396445043385" name="result" value="/&lt;div class=&quot;PersonResultListItem[^&gt;]*&gt;\s*(.*?)\s*&lt;/li&gt;/">
           <set id="07184390858747065" name="name" value="/&lt;a class=&quot;[^&gt;]*profile-page-link[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/" />
           <set id="044804699858650565" name="url" value="/&lt;a class=&quot;[^&gt;]*profile-page-link[^&gt;]*href=&quot;(.*?)&quot;/" decode="RelativeURL" />
-          <set id="031982868048362434" name="address" value="/&lt;span class=&quot;(?:hit-street-address|street-address)&quot;&gt;\s*(.*?)[,\s]*&lt;/span&gt;.*?&lt;span class=&quot;(?:postal-code|hit-postal-code)&quot;&gt;\s*(.*?)\s*&lt;/span&gt;.*?&lt;span class=&quot;(?:locality|hit-address-locality)&quot;&gt;\s*(.*?)\s*&lt;/span&gt;/" decode="FormatString" formatstring="{0}, {1} {2}" />
+          <set id="031982868048362434" name="#striphtml" value="/&lt;div class=&quot;address[^&gt;]*&gt;&lt;span [^&gt;]*\s*(.*?)\s*&lt;/span&gt;&lt;/div&gt;/" formatstring="{0}, {1} {2}">
+            <set id="03196095624111458" name="#strip2" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
+              <set id="09808176536341933" name="address" value="/[&lt;&gt;]/" decode="RegexReplace" />
+            </set>
+          </set>
           <set id="08040194292552769" name="#numberArea" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;/address&gt;/">
             <set id="06369927527848631" name="number" value="/&lt;a[^&gt;]*data-phone=&quot;([^&quot;]*)/" />
           </set>
