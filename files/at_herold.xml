@@ -2,7 +2,7 @@
   <meta>
     <name>Herold</name>
     <country>AT</country>
-    <revision>1</revision>
+    <revision>2</revision>
     <minversion>1</minversion>
     <description>Phone number directory.</description>
     <icon>https://www.herold.at/favicon.ico</icon>
@@ -10,7 +10,9 @@
   </meta>
   <set id="root" name="lookup" tags="lookup">
     <set id="002758836068111936" name="telnr" value="${telnr}" decode="URLEncode" paramoutput="true" />
-    <set id="019905580939683698" name="#search" url="https://www.herold.at/telefonbuch/telefon_${telnr}" encoding="utf-8" requestfields="Header" requestvalue="Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&#xA;Accept-Language:en-US,sv-SE;q=0.8,sv;q=0.6,en;q=0.4&#xA;Cache-Control:max-age=0&#xA;Referer:https://www.herold.at&#xA;Upgrade-Insecure-Requests:1&#xA;User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36">
+    <set id="06665997169694055" name="postData" value="context=WP&amp;sd=PWA03_15660636749620101&amp;rd=&amp;regkey=&amp;lat=&amp;long=&amp;searchterm=${telnr}&amp;searchregion=" paramoutput="true" />
+    <set id="05498866946109661" name="postDataLen" value="${postData}" formatstring="function f(a) {&#xA;return a.length;&#xA;}" decode="Script" paramoutput="true" />
+    <set id="019905580939683698" name="#search" url="https://www.herold.at/servlet/at.herold.sp.servlet.SPWPSearchServlet" encoding="utf-8" requestfields="Header" postrequest="true" postdata="context=WP&amp;sd=PWA03_15660636749620101&amp;rd=&amp;regkey=&amp;lat=&amp;long=&amp;searchterm=${telnr}" requestvalue="Content-Type:application/x-www-form-urlencoded&#xA;User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36">
       <set id="011104778977138263" name="field" value="/&lt;div[^&gt;]*class=&quot;[^&quot;]*result-item-card[^&gt;]*&gt;\s*(.*?)\s*&lt;/a&gt;/">
         <set id="08095508164147632" name="title" value="Name" />
         <set id="08203684482900777" name="#strip html" value="/&lt;[^&gt;]*&gt;/" decode="RegexReplace">
@@ -42,7 +44,7 @@
       <set id="036656468048884916" name="result" value="/(&lt;div[^&gt;]*class=&quot;[^&quot;]*result-item-card[^&gt;]*&gt;([^&lt;]+|&lt;(?!/?div[^&gt;]*&gt;)|&lt;div[^&gt;]*&gt;(?&gt;(?2))*&lt;/div&gt;)*&lt;/div&gt;)/" pcre="true" decode="FormatString" formatstring="{0}">
         <set id="05047788903872719" name="name" value="/&lt;span[^&gt;]*itemprop=&quot;[^&quot;]*name[^&gt;]*&gt;\s*(.*?)\s*&lt;/span&gt;/" decode="XML" />
         <set id="07384814735758115" name="address" value="/&lt;p[^&gt;]*class=&quot;[^&quot;]*address[^&gt;]*&gt;\s*(.*?)\s*&lt;/p&gt;/" />
-        <set id="08731283993538115" name="number" value="/&lt;span[^&gt;]*class=&quot;[^&quot;]*contact-label[^&gt;]*&gt;[a-zA-Z\s]*&lt;/span&gt;([0-9\s]+)&lt;/div&gt;/" formatstring="{0}" pcre="true"></set>
+        <set id="08731283993538115" name="number" value="/&lt;span[^&gt;]*class=&quot;[^&quot;]*contact-label[^&gt;]*&gt;[a-zA-Z\s]*&lt;/span&gt;([0-9\s]+)&lt;/div&gt;/" formatstring="{0}" pcre="true" />
       </set>
     </set>
   </set>
