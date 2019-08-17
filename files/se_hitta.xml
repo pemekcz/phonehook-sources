@@ -9,12 +9,12 @@
     <link>http://www.hitta.se/</link>
   </meta>
   <set id="root" name="number_search" url="http://www.hitta.se/s%C3%B6k?vad=${telnr}" requestfields="Header" requestvalue="Referer:http://www.hitta.se/&#xA;User-Agent:Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" tags="lookup">
-    <set id="09653552274685353" name="field" value="/&lt;span[^&gt;]*itemprop=&quot;name&quot;[^&gt;]*&gt;(.*?)&lt;/span&gt;/" decode="XML" resultrange="0">
+    <set id="09653552274685353" name="field" value="/&lt;h1[^&gt;]*itemprop=&quot;name&quot;[^&gt;]*&gt;(.*?)&lt;/h1&gt;/" decode="XML" resultrange="0">
       <set id="07329683152493089" name="title" value="Name" />
       <set id="05297679875511676" name="value" value="/(.+)/" formatstring="function f(a) {&#xA;return a;&#xA;}" decode="Script" />
       <set id="09632847676984966" name="stitle" value="name" />
     </set>
-    <set id="041087536071427166" name="field" value="/&lt;div[^&gt;]*(?:itemprop=&quot;address&quot;|class=&quot;group--tiny&quot;)[^&gt;]*&gt;(.*?)&lt;/a&gt;/" decode="XML">
+    <set id="041087536071427166" name="field" value="/&lt;address[^&gt;]*&gt;(.*?)&lt;\/address&gt;/" decode="XML">
       <set id="08577135917730629" name="title" value="Address" />
       <set id="0845082618866476" name="#br" value="/&lt;h2[^&gt;]*heading--subtle.*?&lt;/h2&gt;&#xA;&lt;br/?&gt;/" decode="RegexMultiReplace" formatstring="&#xA;, ">
         <set id="003758557396940887" name="#value" value="/&lt;.*?&gt;/" decode="RegexReplace" formatstring="&#xA;">
@@ -32,7 +32,7 @@
       <set id="04846478486433625" name="searchType" value="/(person_search)/" decode="FormatString" formatstring="prv" paramoutput="true" />
       <set id="018362797005102038" name="searchType" value="/(business_search)/" decode="FormatString" formatstring="ftg" paramoutput="true" />
     </set>
-    <set id="04574098938610405" name="#do_search" url="http://www.hitta.se/s%C3%B6k?vad=${searchCombo}&amp;typ=${searchType}&amp;sida=${page}" requestfields="Header" requestvalue="Referer:http://www.hitta.se/&#xA;User-Agent:Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" includeheaders="true">
+    <set id="04574098938610405" name="#do_search" url="https://www.hitta.se/sök?vad=${searchCombo}&amp;typ=${searchType}&amp;sida=${page}" requestfields="Header" requestvalue="Referer:https://www.hitta.se/&#xA;User-Agent:Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" includeheaders="true">
       <set id="09445427818646301" name="#result-ul" value="/&lt;ul class=&quot;result-list-small[^&gt;]*&gt;(.*?)&lt;/ul&gt;\s*&lt;div class=&quot;result-list__pagination/" resultrange="0">
         <set id="09009224770125002" name="result" value="/(&lt;li [^&gt;]*class=&quot;[^&quot;]*result-row.*?&lt;a [^&gt;]*&gt;.*?&lt;/li&gt;)/">
           <set id="036355891381390393" name="name" value="/&lt;h2[^&gt;]*&gt;\s*&lt;span[^&gt;]*&gt;(.*?)&lt;/span&gt;/" decode="XML" />
