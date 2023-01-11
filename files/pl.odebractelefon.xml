@@ -1,0 +1,23 @@
+<robot>
+  <meta>
+    <name>odebractelefon.pl</name>
+    <country>PL</country>
+    <revision>1</revision>
+    <minversion>1</minversion>
+    <description>Spam block</description>
+    <icon>https://www.odebractelefon.pl/media/8/positive_score_icon.png</icon>
+    <link>https://www.odebractelefon.pl/</link>
+  </meta>
+  <set id="root" name="result" tags="lookup,block">
+    <set id="06728823260939907" name="#check-nr" url="https://www.odebractelefon.pl/numer-telefonu/${telnr}">
+      <set id="02743351825710094" name="#description" value="/&lt;div class=&quot;description[^&quot;]*&quot;&gt;(.*?)&lt;/div&gt;/">
+        <set id="01939344345766234" name="block" value="/(negatywna)/" resultrange="0" decode="FormatString" formatstring="true" />
+        <set id="09494758202246683" name="field">
+          <set id="09121779012460827" name="title" value="Comment" />
+          <set id="009985853535827682" name="stitle" value="comment" />
+          <set id="05650907313198319" name="value" value="/&lt;li[^&gt;]*&gt;&#xA;&lt;[^&gt;]*&gt;&#xA;\s+/" decode="RegexMultiReplace" formatstring=" * &#xA;&#xA; " />
+        </set>
+      </set>
+    </set>
+  </set>
+</robot>
